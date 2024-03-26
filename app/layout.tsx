@@ -20,8 +20,8 @@ const fontSans = Montserrat({
   variable: '--font-sans',
 });
 
-const APP_NAME = "Racket WTF";
-const APP_DEFAULT_TITLE = "Racket App";
+const APP_NAME = "BUILDERZ Solana dApp Scaffold";
+const APP_DEFAULT_TITLE = "BUILDERZ Solana dApp Scaffold";
 const APP_TITLE_TEMPLATE = "%s - PWA App";
 const APP_DESCRIPTION = "Best PWA app in the world!";
 
