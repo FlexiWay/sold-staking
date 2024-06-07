@@ -19,7 +19,7 @@ export default function MainComponent() {
           {/* tabs */}
           <div className="w-full flex items-center justify-between">
             <div
-              className={`w-1/2 flex items-center justify-center p-4 bg-green-300 bg-opacity-10 text-green-300 rounded-tl-lg uppercase hover:bg-opacity-40 cursor-pointer font-bold  ${leftTab ? 'bg-opacity-20 text-opacity-100 ' : 'text-opacity-50'} ease-in-out transition-all duration-300`}
+              className={`w-1/2 flex items-center justify-center p-4 bg-brand-secondary bg-opacity-10 text-brand-secondary rounded-tl-lg uppercase hover:bg-opacity-40 cursor-pointer font-bold  ${leftTab ? 'bg-opacity-20 text-opacity-100 ' : 'text-opacity-50'} ease-in-out transition-all duration-300`}
               onClick={() => setLeftTab(true)}
             >
               Buy
@@ -83,7 +83,7 @@ export default function MainComponent() {
               {/* button */}
               <div className="w-full flex items-center justify-center">
                 {
-                  wallet.publicKey ? <button className='w-full h-full rounded-lg text-green-500 py-4 px-8 uppercase bg-green-500 bg-opacity-0 hover:bg-opacity-10 ease-in-out transition-all duration-300'>
+                  wallet.publicKey ? <button className='w-full h-full rounded-lg text-brand-secondary py-4 px-8 uppercase bg-brand-secondary bg-opacity-0 hover:bg-opacity-10 ease-in-out transition-all duration-300'>
                     Buy
                   </button> : <MyMultiButton />
                 }
