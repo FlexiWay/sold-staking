@@ -1,5 +1,5 @@
 import React from 'react';
-import { Montserrat } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
 import "./globals.css";
 
@@ -8,6 +8,7 @@ require("@solana/wallet-adapter-react-ui/styles.css");
 import LayoutWrapper from './LayoutWrapper';
 import Head from 'next/head';
 import { Toaster } from 'sonner';
+import NewAppBar from '@/components/shared/NewAppBar';
 
 
 
@@ -15,7 +16,7 @@ import { Toaster } from 'sonner';
 type Metadata = any;
 type Viewport = any;
 
-const fontSans = Montserrat({
+const fontSans = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
 });
@@ -83,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <LayoutWrapper>
       <AppHead metadata={metadata} viewport={viewport} />
       <html
-        style={{ fontFamily: 'Montserrat', fontWeight: 'bold', fontStyle: 'normal' }}
+        style={{ fontFamily: 'Inter', fontWeight: 'bold', fontStyle: 'normal' }}
         lang='en'>
         {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOURID"></script>
         <script
@@ -98,6 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         ></script> */}
         <body className='font-sans'>
+          <NewAppBar />
           <div lang="en">
             {children}
           </div>

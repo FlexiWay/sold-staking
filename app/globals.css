@@ -70,15 +70,25 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-      /* Fluid Fonts */
-      font-size: calc(16px + (16 - 16) * ((100vw - 320px) / (1280 - 320)));
-      font-style: normal;
-      font-weight: 400;
-      letter-spacing: 125%;
-      line-height: 135%;
-  }
+/* Custom Wallet Button */
+.mymultibutton {
+  @apply bg-black text-white hover:text-black hover:bg-brand-main !important;
+  border: 1px solid black !important;
+}
+
+/* Body styles */
+body {
+  @apply bg-texture-bg bg-center bg-cover bg-no-repeat text-white selection:bg-brand-main selection:text-white ;
+  font-family: 'Inter', sans-serif;
+  /* margin: 0; */
+  height: calc(100vh);
+  /* Fluid Fonts */
+  font-size: calc(16px + (16 - 16) * ((100vw - 320px) / (1280 - 320)));
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 125%;
+  line-height: 135%;
+}
 
 /* Heading styles */
 h1 {
@@ -285,5 +295,14 @@ body::-webkit-scrollbar-thumb {
 .lightMeshBg {
   background: #e6e6f0; background-image: radial-gradient(at 47.0% 96.0%, #a8abbd 0px, transparent 50%),radial-gradient(at 61.0% 15.0%, #d5dde8 0px, transparent 50%),radial-gradient(at 8.0% 16.0%, #c3ccde 0px, transparent 50%),radial-gradient(at 85.0% 28.0%, #b2abeb 0px, transparent 50%),radial-gradient(at 81.0% 66.0%, #ccd2e0 0px, transparent 50%)
 }
+
+  .hide-number-input-arrows::-webkit-inner-spin-button,
+  .hide-number-input-arrows::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .hide-number-input-arrows {
+    -moz-appearance: textfield; /* Firefox */
+  }
 
 }

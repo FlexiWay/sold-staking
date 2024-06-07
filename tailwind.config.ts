@@ -24,6 +24,9 @@ const config = {
       },
       
       colors: {
+          "brand-bg": "#101010",
+        "brand-main": "#EF5323",
+        "brand-secondary": "#E2E2E2",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -57,6 +60,12 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+     backgroundImage: {
+         'brand-image': "url('/background.webp')",
+         'texture-bg': "url('/texture-bg.svg')",
+        'card-bg': "linear-gradient(to top, #101010, #101010)",
+        'card-bgModal': "linear-gradient(to top, #101010, transparent)",
       },
       borderRadius: {
         lg: "var(--radius)",
