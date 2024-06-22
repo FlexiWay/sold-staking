@@ -11,7 +11,7 @@ import Image from 'next/image'
 export default function StakingComponent() {
   const wallet = useWallet()
 
-  const { amount, setAmount, loading, userBalancePUSD, userBalanceUSDC, tokenManager, poolManager, exchangedAmount } = useSold()
+  const { amount, setAmount, loading, userBalancePUSD, poolManager, exchangedAmount } = useSold()
 
   const handleAmountChange = (event: { target: { value: any } }) => {
     setAmount(parseFloat(event.target.value));
