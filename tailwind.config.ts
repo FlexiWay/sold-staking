@@ -27,6 +27,7 @@ const config = {
           "brand-bg": "#101010",
         "brand-main": "#EF5323",
         "brand-secondary": "#6EC7FD",
+        'brand-black': '#050608',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

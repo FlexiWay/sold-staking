@@ -1,10 +1,8 @@
-import MainComponent from '@/components/shared/MainComponent';
 import StakingComponent from '@/components/shared/StakingComponent';
 
-export default function Home() {
+export default function Staking() {
   return (
     <>
-      {/* <MainComponent /> */}
       {/* <StakingComponent /> */}
     </>
   );

@@ -86,8 +86,6 @@ body {
   font-size: calc(16px + (16 - 16) * ((100vw - 320px) / (1280 - 320)));
   font-style: normal;
   font-weight: 400;
-  letter-spacing: 125%;
-  line-height: 135%;
 }
 
 /* Heading styles */
@@ -95,21 +93,18 @@ h1 {
   font-size: calc(30px + (36 - 30) * ((100vw - 320px) / (1280 - 320)));
   font-style: normal;
   font-weight: 900;
-  letter-spacing: 125%;
   line-height: calc(36px + (40 - 36) * ((100vw - 320px) / (1280 - 320)));
 }
 h2 {
   font-size: calc(20px + (24 - 20) * ((100vw - 320px) / (1280 - 320)));
   font-style: normal;
   font-weight: 800;
-  letter-spacing: 125%;
   line-height: calc(34px + (38 - 34) * ((100vw - 320px) / (1280 - 320)));
 }
 h3 {
   font-size: calc(18px + (20 - 18) * ((100vw - 320px) / (1280 - 320)));
   font-style: normal;
   font-weight: 700;
-  letter-spacing: 125%;
   line-height: calc(28px + (32 - 28) * ((100vw - 320px) / (1280 - 320)));
 }
 
@@ -143,7 +138,7 @@ body::-webkit-scrollbar-thumb {
 
 .wallet-adapter-button,
 .mymultibutton {
-  @apply rounded-xl
+  @apply !rounded-xl
 }
 
 
