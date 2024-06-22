@@ -11,7 +11,7 @@ import Image from 'next/image'
 export default function StakingComponent() {
   const wallet = useWallet()
 
-  const { handleDepositFunds, handleWithdrawFunds, amount, setAmount, loading, userBalancePUSD, userBalanceUSDC, tokenManager, poolManager } = useSold()
+  const { amount, setAmount, loading, userBalancePUSD, userBalanceUSDC, tokenManager, poolManager, exchangedAmount } = useSold()
 
   const handleAmountChange = (event: { target: { value: any } }) => {
     setAmount(parseFloat(event.target.value));
@@ -111,9 +111,9 @@ export default function StakingComponent() {
                     <div className="w-full flex items-center justify-start">
                       <span className="text-sm font-semibold leading-6 text-white">You receive</span>
                     </div>
-                    {/* input field */}
+                    {/* output input field */}
                     <div className="w-full flex items-center justify-between gap-4">
-                      <input disabled value={amount} type='number' placeholder='0' className="input disabled:bg-transparent -ml-4 border-0 w-2/3 input-ghost text-4xl font-semibold leading-6 text-white"></input>
+                      <input disabled value={exchangedAmount} type='number' placeholder='0' className="input disabled:bg-transparent -ml-4 border-0 w-2/3 input-ghost text-4xl font-semibold leading-6 text-white"></input>
                       <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-0 border border-white border-opacity-10 py-2 px-4 rounded-xl">
                         <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center opacity-80' />
                         <span className="text-sm font-semibold leading-6 text-white text-opacity-60">sPUSD</span>
@@ -148,7 +148,6 @@ export default function StakingComponent() {
                   {
                     wallet.publicKey ? <button
                       className={`w-full h-full rounded-lg text-brand-secondary py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-secondary ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20  bg-opacity-10 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
-                      onClick={handleDepositFunds}
                       disabled={loading || amount === 0}
                     >
                       {loading && <Spin size='small' />} {!loading && `Stake`}
@@ -238,7 +237,6 @@ export default function StakingComponent() {
                   {
                     wallet.publicKey ? <button
                       className={`w-full h-full rounded-lg text-brand-secondary py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-secondary ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20  bg-opacity-10 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
-                      onClick={handleDepositFunds}
                       disabled={loading || amount === 0}
                     >
                       {loading && <Spin size='small' />} {!loading && `Unstake`}
