@@ -6,6 +6,7 @@ import { Spin } from 'antd'
 import React from 'react'
 import MyMultiButton from './MyMultiButton'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 export default function StakingComponent() {
   const wallet = useWallet()
@@ -18,8 +19,7 @@ export default function StakingComponent() {
 
   const [stakingTab, setStakingTab] = React.useState('stake')
 
-  const annualYieldRate = poolManager ? poolManager.annualYieldRate.toString() : '0';
-
+  const annualYieldRate = poolManager ? (Number(poolManager.annualYieldRate) / 1000000000).toString() : '0';
 
   return (
     <section className='w-full my-10'>
@@ -44,16 +44,18 @@ export default function StakingComponent() {
                 >
                   Unstake
                 </button>
-                <button
+                {/* <button
                   className={`w-1/2 py-1 text-sm font-semibold leading-6 transition-all ease-in-out duration-300 bg-white rounded-lg ${stakingTab === 'claim' ? 'bg-opacity-100 text-black ' : 'bg-opacity-0 hover:bg-opacity-20'}`}
                   onClick={() => setStakingTab('claim')}
                 >
                   Claim
-                </button>
+                </button> */}
               </div>
               <div className="w-2/5 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-xl py-1 flex items-center justify-center gap-2 text-sm">
-                <span>xUSDe APY</span>
-                <span className='text-brand-secondary'>{loading ? <> <Spin size='small' /> </> : annualYieldRate}%</span>
+                <span>sPUSD APY</span>
+                {
+                  annualYieldRate && wallet.publicKey && <span className='text-brand-secondary'>{loading ? <> </> : <>{annualYieldRate}%</>}</span>
+                }
               </div>
             </div>
 
@@ -72,26 +74,34 @@ export default function StakingComponent() {
                     </div>
                     {/* input */}
                     <div className="w-full flex items-center justify-between gap-4">
-                      <input onChange={handleAmountChange} type='number' placeholder='0' className="input w-2/3 focus:bg-transparent input-ghost text-4xl font-semibold leading-6 text-white"></input>
+                      <input onChange={handleAmountChange} value={amount} type='number' placeholder='0' className="input w-2/3 focus:bg-transparent input-ghost text-4xl font-semibold leading-6 text-white"></input>
                       <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
-                        <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
+                        <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center' />
                         <span className="text-sm font-semibold leading-6 text-white">pUSD</span>
                       </div>
                     </div>
                     {/* balance */}
                     <div className="w-full flex items-center justify-end gap-2 pr-2">
-                      <span className="text-[10px] font-semibold leading-6 text-gray-500">Balance: {userBalancePUSD}</span>
-                      <span className='text-[10px] text-brand-secondary'>Max</span>
+                      <span className="text-[10px] font-semibold leading-6 text-gray-500">Balance: {userBalancePUSD.toLocaleString()}</span>
+                      <span className='text-[10px] text-brand-secondary text-opacity-60 hover:text-opacity-100 cursor-pointer'
+                        onClick={() => setAmount(userBalancePUSD)}
+                      >Max</span>
                     </div>
                   </div>
 
                   {/* separator */}
                   <div className="w-full h-[2px] bg-brand-secondary bg-opacity-10 flex items-center justify-center relative">
-                    <div className="absolute w-12 h-8 bg-black left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center border text-brand-secondary border-brand-secondary border-opacity-10 rounded-lg ">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                    <motion.div
+
+                      className="absolute w-12 h-8 bg-black left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center border text-brand-secondary border-brand-secondary border-opacity-10 rounded-lg "
+                    >
+                      <motion.svg
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
-                      </svg>
-                    </div>
+                      </motion.svg>
+                    </motion.div>
                   </div>
 
 
@@ -104,9 +114,9 @@ export default function StakingComponent() {
                     {/* input field */}
                     <div className="w-full flex items-center justify-between gap-4">
                       <input disabled value={amount} type='number' placeholder='0' className="input disabled:bg-transparent -ml-4 border-0 w-2/3 input-ghost text-4xl font-semibold leading-6 text-white"></input>
-                      <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
-                        <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
-                        <span className="text-sm font-semibold leading-6 text-white">sPUSD</span>
+                      <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-0 border border-white border-opacity-10 py-2 px-4 rounded-xl">
+                        <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center opacity-80' />
+                        <span className="text-sm font-semibold leading-6 text-white text-opacity-60">sPUSD</span>
                       </div>
                     </div>
                     {/* balance */}
@@ -119,7 +129,7 @@ export default function StakingComponent() {
                 {/* stats eligible */}
                 <div className="mt-4 w-full flex items-center justify-between p-2">
                   <div className="flex items-center justify-center gap-2">
-                    <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
+                    <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center' />
                     <span className="text-sm font-thin leading-6 text-gray-200">Stats Eligible</span>
                   </div>
                   <div className="">
@@ -128,10 +138,10 @@ export default function StakingComponent() {
                 </div>
 
                 {/* banner */}
-                <div className="w-full bg-white bg-opacity-10 rounded-xl flex items-center justify-center gap-4 p-2 my-4">
-                  <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
+                {/* <div className="w-full bg-white bg-opacity-10 rounded-xl flex items-center justify-center gap-4 p-2 my-4">
+                  <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center' />
                   <span className="text-sm font-semibold leading-6 text-white">sPUSD will be available to claim 7 days after unstaking.</span>
-                </div>
+                </div> */}
 
                 {/* button */}
                 <div className="w-full flex items-center justify-center">
