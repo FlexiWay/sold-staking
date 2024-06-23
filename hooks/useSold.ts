@@ -124,7 +124,7 @@ export const useSold = () => {
     useEffect(() => {
         getUserBalances();
     }, [tokenManager, poolManager]);
-    
+
 
     const refetch = () => {
         setReset(prev => prev + 1);
@@ -229,61 +229,101 @@ const handleStake = async (e: any) => {
     setLoading(false);
 }
 
-    const handleUnstake = async (e: any) => {
-        e.preventDefault();
-        if (!tokenManager || !poolManager) {
-            throw new Error("Token manager or pool manager not found");
-        }
-
-        setLoading(true);
-
-        try {
-            let txBuilder = new TransactionBuilder();
-
-            let xMint = umi.eddsa.findPda(SOLD_STAKING_PROGRAM_ID, [Buffer.from("mint")])[0];
-            const baseMintDecimals = 6;
-
-            const baseMint = umi.eddsa.findPda(SOLD_ISSUANCE_PROGRAM_ID, [Buffer.from("mint")])[0];
-            const userBase = findAssociatedTokenPda(umi, { owner: umi.identity.publicKey, mint: baseMint });
-            const userX = findAssociatedTokenPda(umi, { owner: umi.identity.publicKey, mint: xMint });
-            const vaultStaking = findAssociatedTokenPda(umi, { owner: poolManager.publicKey, mint: xMint });
-
-            const userBaseAtaAcc = await safeFetchToken(umi, userBase);
-            if (!userBaseAtaAcc) {
-                txBuilder = txBuilder.add(createAssociatedToken(umi, {
-                    mint: baseMint,
-                    owner: umi.identity.publicKey,
-                }));
-            }
-
-            const _stakePoolAcc = await safeFetchPoolManager(umi, poolManager.publicKey);
-            const quantity = Number(_stakePoolAcc?.xSupply);
-
-            txBuilder = txBuilder.add(unstake(umi, {
-                poolManager: poolManager.publicKey,
-                baseMint,
-                xMint,
-                payerBaseMintAta: userBase,
-                payerXMintAta: userX,
-                vault: vaultStaking,
-                associatedTokenProgram: SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
-                quantity,
-                tokenManager: tokenManager.publicKey,  // Ensure tokenManager is of type PublicKey
-                soldIssuanceProgram: SOLD_ISSUANCE_PROGRAM_ID,
-            }));
-
-            await txBuilder.sendAndConfirm(umi, { send: { skipPreflight: true }, confirm: { commitment: "confirmed" } });
-
-            toast("Unstaked successfully");
-            refetch();
-        } catch (error) {
-            console.error("Failed to handle unstake action:", error);
-            toast.error("Failed to handle unstake action");
-            refetch();
-        }
-
-        setLoading(false);
+const handleUnstake = async (e: any) => {
+    e.preventDefault();
+    if (!tokenManager || !poolManager) {
+        throw new Error("Token manager or pool manager not found");
     }
+
+    setLoading(true);
+
+    try {
+        let txBuilder = new TransactionBuilder();
+
+        // Find the PDAs
+        let xMint = umi.eddsa.findPda(SOLD_STAKING_PROGRAM_ID, [Buffer.from("mint")])[0];
+        const baseMint = umi.eddsa.findPda(SOLD_ISSUANCE_PROGRAM_ID, [Buffer.from("mint")])[0];
+        const userBase = findAssociatedTokenPda(umi, { owner: umi.identity.publicKey, mint: baseMint });
+        const userX = findAssociatedTokenPda(umi, { owner: umi.identity.publicKey, mint: xMint });
+        const vaultStaking = findAssociatedTokenPda(umi, { owner: poolManager.publicKey, mint: baseMint });
+
+        // Fetch token accounts
+        const userBaseAtaAcc = await safeFetchToken(umi, userBase);
+        if (!userBaseAtaAcc) {
+            txBuilder = txBuilder.add(createAssociatedToken(umi, {
+                mint: baseMint,
+                owner: umi.identity.publicKey,
+            }));
+        }
+
+        const userXAtaAcc = await safeFetchToken(umi, userX);
+        if (!userXAtaAcc) {
+            txBuilder = txBuilder.add(createAssociatedToken(umi, {
+                mint: xMint,
+                owner: umi.identity.publicKey,
+            }));
+        }
+
+        const vaultAcc = await safeFetchToken(umi, vaultStaking);
+        if (!vaultAcc) {
+            txBuilder = txBuilder.add(createAssociatedToken(umi, {
+                mint: baseMint,
+                owner: poolManager.publicKey,
+            }));
+        }
+
+        // Fetch the stake pool account
+        const _stakePoolAcc = await safeFetchPoolManager(umi, poolManager.publicKey);
+        const quantity = amount * 10 ** 6; // Assuming 6 is the decimal for xMint
+
+        // Fetch current exchange rate and calculate baseMint to be received
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        const exchangeRate = calculateExchangeRate(
+            Number(_stakePoolAcc?.lastYieldChangeTimestamp),
+            currentTimestamp,
+            Number(_stakePoolAcc?.annualYieldRate),
+            Number(_stakePoolAcc?.lastYieldChangeExchangeRate)
+        );
+        const expectedBaseMintAmount = BigInt(Math.floor((quantity / exchangeRate) * 10 ** 6));
+        console.log('Expected BaseMint Amount:', expectedBaseMintAmount);
+
+        // Add unstake instruction
+        txBuilder = txBuilder.add(unstake(umi, {
+            poolManager: poolManager.publicKey,
+            baseMint,
+            xMint,
+            payerBaseMintAta: userBase,
+            payerXMintAta: userX,
+            vault: vaultStaking,
+            associatedTokenProgram: SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
+            quantity,
+            tokenManager: tokenManager.publicKey,
+            soldIssuanceProgram: SOLD_ISSUANCE_PROGRAM_ID,
+        }));
+
+        // Send and confirm the transaction
+        const resUnstake = await txBuilder.sendAndConfirm(umi, { send: { skipPreflight: true }, confirm: { commitment: "confirmed" } });
+        console.log(bs58.encode(resUnstake.signature)); // Log the transaction signature in base58
+
+        // Fetch account data after the transaction
+        const userBaseAfter = await safeFetchToken(umi, userBase);
+        const vaultAfter = await safeFetchToken(umi, vaultStaking);
+
+        // Log balances for debugging
+        console.log('User BaseMint Balance After:', userBaseAfter?.amount);
+        console.log('Vault BaseMint Balance After:', vaultAfter?.amount);
+
+        toast("Unstaked successfully");
+        refetch();
+    } catch (error) {
+        console.error("Failed to handle unstake action:", error);
+        toast.error("Failed to handle unstake action");
+        refetch();
+    }
+
+    setLoading(false);
+}
+
 
 
     return { tokenManager, poolManager, refetch, loading, statCardData, userBalancePUSD, userBalanceUSDC , amount, setAmount, exchangedAmount, calculateExchangedAmount, exchangeRate, handleStake, handleUnstake, annualYieldRate};

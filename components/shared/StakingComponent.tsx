@@ -190,7 +190,7 @@ export default function StakingComponent() {
                         onFocus={(e) => e.target.value === '0' && (e.target.value = '')}
                       ></input>
                       <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
-                        <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
+                        <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center' />
                         <span className="text-sm font-semibold leading-6 text-white">sPUSD</span>
                       </div>
                     </div>
@@ -218,9 +218,9 @@ export default function StakingComponent() {
                     </div>
                     {/* input field */}
                     <div className="w-full flex items-center justify-between gap-4">
-                      <input disabled value={amount} type='number' placeholder='0' className="input disabled:bg-transparent -ml-4 border-0 w-2/3 input-ghost text-4xl font-semibold leading-6 text-white"></input>
+                      <input disabled value={exchangedAmount} type='number' placeholder='0' className="input disabled:bg-transparent -ml-4 border-0 w-2/3 input-ghost text-4xl font-semibold leading-6 text-white"></input>
                       <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
-                        <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
+                        <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center' />
                         <span className="text-sm font-semibold leading-6 text-white">PUSD</span>
                       </div>
                     </div>
@@ -234,7 +234,7 @@ export default function StakingComponent() {
                 {/* stats eligible */}
                 <div className="mt-4 w-full flex items-center justify-between p-2">
                   <div className="flex items-center justify-center gap-2">
-                    <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
+                    <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center' />
                     <span className="text-sm font-thin leading-6 text-gray-200">Stats Eligible</span>
                   </div>
                   <div className="">
@@ -243,10 +243,10 @@ export default function StakingComponent() {
                 </div>
 
                 {/* banner */}
-                <div className="w-full bg-white bg-opacity-10 rounded-xl flex items-center justify-center gap-4 p-2 my-4">
+                {/* <div className="w-full bg-white bg-opacity-10 rounded-xl flex items-center justify-center gap-4 p-2 my-4">
                   <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
                   <span className="text-sm font-semibold leading-6 text-white">USDe will be available to claim 7 days after unstaking.</span>
-                </div>
+                </div> */}
 
                 {/* button */}
                 <div className="w-full flex items-center justify-center">
