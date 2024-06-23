@@ -11,15 +11,11 @@ import Image from 'next/image'
 export default function StakingComponent() {
   const wallet = useWallet()
 
-  const { amount, setAmount, loading, userBalancePUSD, poolManager, exchangedAmount, handleStake, handleUnstake } = useSold()
+  const { amount, setAmount, loading, userBalancePUSD, userBalanceSPUSD, poolManager, exchangedAmount, handleStake, handleUnstake, annualYieldRate, stakingTab, setStakingTab } = useSold();
 
   const handleAmountChange = (event: { target: { value: any } }) => {
     setAmount(parseFloat(event.target.value));
   }
-
-  const [stakingTab, setStakingTab] = React.useState('stake')
-
-  const annualYieldRate = poolManager ? (Number(poolManager.annualYieldRate) / 1000000000).toString() : '0';
 
   return (
     <section className='w-full my-10'>
@@ -130,7 +126,7 @@ export default function StakingComponent() {
                     </div>
                     {/* balance */}
                     <div className="w-full flex items-center justify-end gap-2 pr-2">
-                      <span className="text-[10px] font-semibold leading-6 text-gray-500">Balance: 0</span>
+                      <span className="text-[10px] font-semibold leading-6 text-gray-500">Balance: {userBalanceSPUSD.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
@@ -185,6 +181,7 @@ export default function StakingComponent() {
                       <input
                         onChange={handleAmountChange}
                         type='number'
+                        value={amount}
                         placeholder='0'
                         className="input w-2/3 focus:bg-transparent input-ghost text-4xl font-semibold leading-6 text-white"
                         onFocus={(e) => e.target.value === '0' && (e.target.value = '')}
@@ -196,8 +193,10 @@ export default function StakingComponent() {
                     </div>
                     {/* balance */}
                     <div className="w-full flex items-center justify-end gap-2 pr-2">
-                      <span className="text-[10px] font-semibold leading-6 text-gray-500">Balance: 0</span>
-                      <span className='text-[10px] text-brand-secondary'>Max</span>
+                      <span className="text-[10px] font-semibold leading-6 text-gray-500">Balance: {userBalanceSPUSD.toLocaleString()}</span>
+                      <span className='text-[10px] text-brand-secondary text-opacity-60 hover:text-opacity-100 cursor-pointer'
+                        onClick={() => setAmount(userBalanceSPUSD)}
+                      >Max</span>
                     </div>
                   </div>
 
@@ -226,7 +225,7 @@ export default function StakingComponent() {
                     </div>
                     {/* balance */}
                     <div className="w-full flex items-center justify-end gap-2 pr-2">
-                      <span className="text-[10px] font-semibold leading-6 text-gray-500">Balance: 0</span>
+                      <span className="text-[10px] font-semibold leading-6 text-gray-500">Balance: {userBalancePUSD.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
