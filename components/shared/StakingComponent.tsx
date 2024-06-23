@@ -11,7 +11,7 @@ import Image from 'next/image'
 export default function StakingComponent() {
   const wallet = useWallet()
 
-  const { amount, setAmount, loading, userBalancePUSD, poolManager, exchangedAmount } = useSold()
+  const { amount, setAmount, loading, userBalancePUSD, poolManager, exchangedAmount, handleStake, handleUnstake } = useSold()
 
   const handleAmountChange = (event: { target: { value: any } }) => {
     setAmount(parseFloat(event.target.value));
@@ -23,7 +23,9 @@ export default function StakingComponent() {
 
   return (
     <section className='w-full my-10'>
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: -60 }}
+        animate={{ opacity: 1, y: 0 }}
         className="w-full flex items-start lg:items-start justify-center px-4 lg:px-0"
         style={{ height: 'calc(100vh - 186px)' }}
       >
@@ -74,10 +76,17 @@ export default function StakingComponent() {
                     </div>
                     {/* input */}
                     <div className="w-full flex items-center justify-between gap-4">
-                      <input onChange={handleAmountChange} value={amount} type='number' placeholder='0' className="input w-2/3 focus:bg-transparent input-ghost text-4xl font-semibold leading-6 text-white"></input>
+                      <input
+                        onChange={handleAmountChange}
+                        value={amount}
+                        type='number'
+                        placeholder='0'
+                        className="input w-2/3 focus:bg-transparent input-ghost text-4xl font-semibold leading-6 text-white"
+                        onFocus={(e) => e.target.value === '0' && (e.target.value = '')}
+                      ></input>
                       <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
                         <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center' />
-                        <span className="text-sm font-semibold leading-6 text-white">pUSD</span>
+                        <span className="text-sm font-semibold leading-6 text-white">PUSD</span>
                       </div>
                     </div>
                     {/* balance */}
@@ -149,6 +158,7 @@ export default function StakingComponent() {
                     wallet.publicKey ? <button
                       className={`w-full h-full rounded-lg text-brand-secondary py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-secondary ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20  bg-opacity-10 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
                       disabled={loading || amount === 0}
+                      onClick={handleStake}
                     >
                       {loading && <Spin size='small' />} {!loading && `Stake`}
                     </button> : <MyMultiButton />
@@ -172,7 +182,13 @@ export default function StakingComponent() {
                     </div>
                     {/* input */}
                     <div className="w-full flex items-center justify-between gap-4">
-                      <input onChange={handleAmountChange} type='number' placeholder='0' className="input w-2/3 focus:bg-transparent input-ghost text-4xl font-semibold leading-6 text-white"></input>
+                      <input
+                        onChange={handleAmountChange}
+                        type='number'
+                        placeholder='0'
+                        className="input w-2/3 focus:bg-transparent input-ghost text-4xl font-semibold leading-6 text-white"
+                        onFocus={(e) => e.target.value === '0' && (e.target.value = '')}
+                      ></input>
                       <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
                         <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
                         <span className="text-sm font-semibold leading-6 text-white">sPUSD</span>
@@ -205,7 +221,7 @@ export default function StakingComponent() {
                       <input disabled value={amount} type='number' placeholder='0' className="input disabled:bg-transparent -ml-4 border-0 w-2/3 input-ghost text-4xl font-semibold leading-6 text-white"></input>
                       <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
                         <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
-                        <span className="text-sm font-semibold leading-6 text-white">pUSD</span>
+                        <span className="text-sm font-semibold leading-6 text-white">PUSD</span>
                       </div>
                     </div>
                     {/* balance */}
@@ -238,6 +254,7 @@ export default function StakingComponent() {
                     wallet.publicKey ? <button
                       className={`w-full h-full rounded-lg text-brand-secondary py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-secondary ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20  bg-opacity-10 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
                       disabled={loading || amount === 0}
+                      onClick={handleUnstake}
                     >
                       {loading && <Spin size='small' />} {!loading && `Unstake`}
                     </button> : <MyMultiButton />
@@ -249,7 +266,7 @@ export default function StakingComponent() {
 
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }
