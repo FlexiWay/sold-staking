@@ -1,24 +1,21 @@
-import React from 'react';
-import { Inter } from 'next/font/google';
+import React from "react";
+import { Inter } from "next/font/google";
 
 import "./globals.css";
 
 require("@solana/wallet-adapter-react-ui/styles.css");
 
-import LayoutWrapper from './LayoutWrapper';
-import Head from 'next/head';
-import { Toaster } from 'sonner';
-import NewAppBar from '@/components/shared/NewAppBar';
-
-
-
+import LayoutWrapper from "./LayoutWrapper";
+import Head from "next/head";
+import { Toaster } from "sonner";
+import NewAppBar from "@/components/shared/NewAppBar";
 
 type Metadata = any;
 type Viewport = any;
 
 const fontSans = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 const APP_NAME = "BUILDERZ Solana dApp Scaffold";
@@ -78,14 +75,18 @@ const AppHead = ({ metadata, viewport }: any) => {
   );
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <LayoutWrapper>
       <AppHead metadata={metadata} viewport={viewport} />
       <html
-        style={{ fontFamily: 'Inter', fontWeight: 'bold', fontStyle: 'normal' }}
-        lang='en'>
+        style={{ fontFamily: "Inter", fontWeight: "bold", fontStyle: "normal" }}
+        lang="en"
+      >
         {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOURID"></script>
         <script
           dangerouslySetInnerHTML={{
@@ -98,11 +99,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       `,
           }}
         ></script> */}
-        <body className='font-sans'>
+        <body className="font-sans">
           <NewAppBar />
-          <div lang="en">
-            {children}
-          </div>
+          <div lang="en">{children}</div>
           <Toaster />
         </body>
       </html>

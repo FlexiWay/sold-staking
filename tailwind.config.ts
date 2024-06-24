@@ -1,14 +1,14 @@
-import type { Config } from "tailwindcss"
-const { fontFamily } = require("tailwindcss/defaultTheme")
+import type { Config } from "tailwindcss";
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -19,15 +19,15 @@ const config = {
       },
     },
     extend: {
-       fontFamily: {
+      fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
-      
+
       colors: {
-          "brand-bg": "#101010",
+        "brand-bg": "#101010",
         "brand-main": "#EF5323",
         "brand-secondary": "#6EC7FD",
-        'brand-black': '#050608',
+        "brand-black": "#050608",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -62,11 +62,11 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-     backgroundImage: {
-         'brand-image': "url('/background.webp')",
-         'texture-bg': "url('/texture-bg.svg')",
-        'card-bg': "linear-gradient(to top, #101010, #101010)",
-        'card-bgModal': "linear-gradient(to top, #101010, transparent)",
+      backgroundImage: {
+        "brand-image": "url('/background.webp')",
+        "texture-bg": "url('/texture-bg.svg')",
+        "card-bg": "linear-gradient(to top, #101010, #101010)",
+        "card-bgModal": "linear-gradient(to top, #101010, transparent)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -89,10 +89,7 @@ const config = {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-  require("daisyui")
-],
-} satisfies Config
+  plugins: [require("tailwindcss-animate"), require("daisyui")],
+} satisfies Config;
 
-export default config
+export default config;

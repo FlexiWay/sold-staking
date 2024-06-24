@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Logo } from './Logo'
-import MyMultiButton from './MyMultiButton'
-import { usePathname } from 'next/navigation'
+import { useState } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Logo } from "./Logo";
+import MyMultiButton from "./MyMultiButton";
+import { usePathname } from "next/navigation";
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Swap', href: '/swap' },
-  { name: 'Staking', href: '/staking' },
-]
+  { name: "Home", href: "/" },
+  { name: "Swap", href: "/swap" },
+  { name: "Staking", href: "/staking" },
+];
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -19,7 +19,10 @@ export default function Example() {
 
   return (
     <header className="pt-4">
-      <nav className="mx-auto flex container items-center justify-between p-4 lg:px-8 rounded-xl bg-brand-black border border-white border-opacity-10" aria-label="Global">
+      <nav
+        className="mx-auto flex container items-center justify-between p-4 lg:px-8 rounded-xl bg-brand-black border border-white border-opacity-10"
+        aria-label="Global"
+      >
         <div className="flex items-center gap-x-12">
           <Logo />
           <div className="hidden lg:flex lg:gap-x-12">
@@ -27,7 +30,7 @@ export default function Example() {
               <a
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-semibold leading-6 border-b transition-all ease-in-out duration-300  ${item.href === pathname ? 'border-b-white' : 'border-b-transparent hover:border-b-white'}`}
+                className={`text-sm font-semibold leading-6 border-b transition-all ease-in-out duration-300  ${item.href === pathname ? "border-b-white" : "border-b-transparent hover:border-b-white"}`}
               >
                 {item.name}
               </a>
@@ -48,7 +51,11 @@ export default function Example() {
           <MyMultiButton />
         </div>
       </nav>
-      <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+      <Dialog
+        className="lg:hidden"
+        open={mobileMenuOpen}
+        onClose={setMobileMenuOpen}
+      >
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-brand-black px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-100/10">
           <div className="flex items-center justify-between">
@@ -83,5 +90,5 @@ export default function Example() {
         </DialogPanel>
       </Dialog>
     </header>
-  )
+  );
 }

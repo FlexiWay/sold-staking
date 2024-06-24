@@ -1,6 +1,5 @@
-
-import ContextProvider from '@/context/ContextProvider';
-import React from 'react';
+import ContextProvider from "@/context/ContextProvider";
+import React from "react";
 
 /**
  *
@@ -14,11 +13,8 @@ type LayoutWrapperProps = {
 const LayoutWrapper: React.FC<LayoutWrapperProps> = async ({ children }) => {
   return (
     <>
-      <ContextProvider>
-        {children}
-      </ContextProvider>
+      <ContextProvider>{children}</ContextProvider>
     </>
-
   );
 };
 

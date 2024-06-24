@@ -1,4 +1,4 @@
-import StakingComponent from '@/components/shared/StakingComponent';
+import StakingComponent from "@/components/shared/StakingComponent";
 
 export default function Staking() {
   return (
