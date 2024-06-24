@@ -102,7 +102,7 @@ export default function RootLayout({
         <body className="font-sans">
           <NewAppBar />
           <div lang="en">{children}</div>
-          <Toaster />
+          <Toaster theme='dark' />
         </body>
       </html>
     </LayoutWrapper>
