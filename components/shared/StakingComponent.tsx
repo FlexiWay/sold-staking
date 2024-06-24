@@ -103,9 +103,9 @@ export default function StakingComponent() {
                         <Image
                           width={20}
                           height={20}
-                          src="/usdc.png"
-                          alt=""
-                          className="w-4 h-4 object-center"
+                          src="/pusd.png"
+                          alt="pusd"
+                          className="w-4 h-4 object-center rounded-full"
                         />
                         <span className="text-sm font-semibold leading-6 text-white">
                           PUSD
@@ -168,9 +168,9 @@ export default function StakingComponent() {
                         <Image
                           width={20}
                           height={20}
-                          src="/usdc.png"
-                          alt=""
-                          className="w-4 h-4 object-center opacity-80"
+                          src="/spusd.png"
+                          alt="spusd"
+                          className="w-4 h-4 object-center opacity-80 rounded-full"
                         />
                         <span className="text-sm font-semibold leading-6 text-white text-opacity-60">
                           sPUSD
@@ -260,9 +260,9 @@ export default function StakingComponent() {
                         <Image
                           width={20}
                           height={20}
-                          src="/usdc.png"
-                          alt=""
-                          className="w-4 h-4 object-center"
+                          src="/spusd.png"
+                          alt="spusd"
+                          className="w-4 h-4 object-center rounded-full"
                         />
                         <span className="text-sm font-semibold leading-6 text-white">
                           sPUSD
@@ -323,9 +323,9 @@ export default function StakingComponent() {
                         <Image
                           width={20}
                           height={20}
-                          src="/usdc.png"
-                          alt=""
-                          className="w-4 h-4 object-center"
+                          src="/pusd.png"
+                          alt="pusd"
+                          className="w-4 h-4 object-center rounded-full"
                         />
                         <span className="text-sm font-semibold leading-6 text-white">
                           PUSD
@@ -349,7 +349,7 @@ export default function StakingComponent() {
                       height={20}
                       src="/usdc.png"
                       alt=""
-                      className="w-4 h-4 object-center"
+                      className="w-4 h-4 object-center rounded-full"
                     />
                     <span className="text-sm font-thin leading-6 text-gray-200">
                       Stats Eligible
