@@ -28,6 +28,7 @@ const config = {
         "brand-main": "#EF5323",
         "brand-secondary": "#6EC7FD",
         "brand-black": "#050608",
+                'brand-first': '#492BFF',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -64,7 +65,7 @@ const config = {
       },
       backgroundImage: {
         "brand-image": "url('/background.webp')",
-        "texture-bg": "url('/texture-bg.svg')",
+        "texture-bg": "url('/bg.png')",
         "card-bg": "linear-gradient(to top, #101010, #101010)",
         "card-bgModal": "linear-gradient(to top, #101010, transparent)",
       },

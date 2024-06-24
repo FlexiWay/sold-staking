@@ -8,9 +8,9 @@ import MyMultiButton from "./MyMultiButton";
 import { usePathname } from "next/navigation";
 
 const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Swap", href: "/swap" },
+  // { name: "Home", href: "/" },
   { name: "Staking", href: "/staking" },
+  { name: "Swap", href: "/swap" },
 ];
 
 export default function Example() {
@@ -20,17 +20,17 @@ export default function Example() {
   return (
     <header className="pt-4">
       <nav
-        className="mx-auto flex container items-center justify-between p-4 lg:px-8 rounded-xl bg-brand-black border border-white border-opacity-10"
+        className="mx-auto flex w-full container items-center justify-between p-4 lg:px-8 "
         aria-label="Global"
       >
-        <div className="flex items-center gap-x-12">
+        <div className="flex items-center gap-x-12 w-full">
           <Logo />
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden lg:flex lg:gap-x-12 flex-grow items-center justify-center -mb-12">
             {navigation.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-semibold leading-6 border-b transition-all ease-in-out duration-300  ${item.href === pathname ? "border-b-white" : "border-b-transparent hover:border-b-white"}`}
+                className={`text-sm font-semibold leading-6 border-b-2 transition-all ease-in-out duration-300 py-4 ${item.href === pathname ? "border-b-brand-first text-brand-first" : "border-b-transparent hover:text-brand-first hover:border-b-brand-first"}`}
               >
                 {item.name}
               </a>

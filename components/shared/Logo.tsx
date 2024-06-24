@@ -9,11 +9,11 @@ export const Logo = ({ isDark }: any) => {
   return (
     <Link href="/" passHref>
       <Image
-        src="/SD_logo.png"
+        src="/logo.svg"
         width={140}
         height={140}
         alt=""
-        className="min-w-[30px] w-12 md:w-32 lg:w-64 max-w-[140px] cursor-pointer"
+        className="min-w-[30px] md:w-32 max-w-[108px] cursor-pointer"
       />
     </Link>
   );
