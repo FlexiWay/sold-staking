@@ -30,22 +30,28 @@ export default function StakingComponent() {
     setAmount(parseFloat(event.target.value));
   };
 
-  const value = 2412238490
+  const value = 2412238490;
 
   return (
     <section className="w-full my-10">
       <div className="w-full flex flex-col items-center justify-center gap-2 my-20">
-        <span className='text-[14px]'>Total pUSD staked</span>
+        <span className="text-[14px]">Total pUSD staked</span>
         <div className="w-full flex items-center justify-center gap-4">
-          <img src="/pusd.png" alt="pusd" className='w-10 h-10 object-cover rounded-full' />
-          <span className='text-[36px] font-semibold'>{value.toLocaleString()}</span>
+          <img
+            src="/pusd.png"
+            alt="pusd"
+            className="w-10 h-10 object-cover rounded-full"
+          />
+          <span className="text-[36px] font-semibold">
+            {value.toLocaleString()}
+          </span>
         </div>
       </div>
       <motion.div
         initial={{ opacity: 0, y: -60 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full flex items-start lg:items-start justify-center px-4 lg:px-0"
-      // style={{ height: "calc(100vh - 186px)" }}
+        // style={{ height: "calc(100vh - 186px)" }}
       >
         <div className="w-full max-w-lg bg-brand-bg rounded-lg shadow-md border border-white border-opacity-10 overflow-hidden">
           <div className="w-full flex flex-col items-center justify-center">
@@ -124,9 +130,19 @@ export default function StakingComponent() {
                     {/* balance */}
                     <div className="w-full flex items-center justify-end gap-2 pr-2">
                       <span className="text-[10px] font-semibold leading-6 text-gray-500">
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M0.166016 4.25H11.2493C11.4041 4.25 11.5524 4.31146 11.6618 4.42085C11.7712 4.53025 11.8327 4.67862 11.8327 4.83333V10.6667C11.8327 10.8214 11.7712 10.9697 11.6618 11.0791C11.5524 11.1885 11.4041 11.25 11.2493 11.25H0.749349C0.594639 11.25 0.446266 11.1885 0.33687 11.0791C0.227474 10.9697 0.166016 10.8214 0.166016 10.6667V4.25ZM0.749349 0.75H9.49935V3.08333H0.166016V1.33333C0.166016 1.17862 0.227474 1.03025 0.33687 0.920854C0.446266 0.811458 0.594639 0.75 0.749349 0.75ZM7.74935 7.16667V8.33333H9.49935V7.16667H7.74935Z" fill="#69707D" />
-                        </svg> {userBalancePUSD.toLocaleString()}
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0.166016 4.25H11.2493C11.4041 4.25 11.5524 4.31146 11.6618 4.42085C11.7712 4.53025 11.8327 4.67862 11.8327 4.83333V10.6667C11.8327 10.8214 11.7712 10.9697 11.6618 11.0791C11.5524 11.1885 11.4041 11.25 11.2493 11.25H0.749349C0.594639 11.25 0.446266 11.1885 0.33687 11.0791C0.227474 10.9697 0.166016 10.8214 0.166016 10.6667V4.25ZM0.749349 0.75H9.49935V3.08333H0.166016V1.33333C0.166016 1.17862 0.227474 1.03025 0.33687 0.920854C0.446266 0.811458 0.594639 0.75 0.749349 0.75ZM7.74935 7.16667V8.33333H9.49935V7.16667H7.74935Z"
+                            fill="#69707D"
+                          />
+                        </svg>{" "}
+                        {userBalancePUSD.toLocaleString()}
                       </span>
                       <span
                         className="text-[10px] text-brand-secondary text-opacity-60 hover:text-opacity-100 cursor-pointer"
