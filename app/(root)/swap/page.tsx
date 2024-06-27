@@ -1,5 +1,7 @@
-import StakingComponent from "@/components/shared/StakingComponent";
+import SwapComponent from '@/components/shared/SwapComponent';
 
 export default function Staking() {
-  return <>{/* <StakingComponent /> */}</>;
+  return <>
+    <SwapComponent />
+  </>;
 }

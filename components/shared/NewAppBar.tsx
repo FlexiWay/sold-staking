@@ -9,8 +9,8 @@ import { usePathname } from "next/navigation";
 
 const navigation = [
   // { name: "Home", href: "/" },
+  { name: "Buy", href: "/swap" },
   { name: "Staking", href: "/staking" },
-  { name: "Swap", href: "/swap" },
 ];
 
 export default function Example() {

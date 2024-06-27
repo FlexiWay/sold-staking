@@ -33,8 +33,8 @@ export default function StakingComponent() {
   const value = 2412238490;
 
   return (
-    <section className="w-full my-10">
-      <div className="w-full flex flex-col items-center justify-center gap-2 my-20">
+    <section className="w-full my-10 mt-20">
+      {/* <div className="w-full flex flex-col items-center justify-center gap-2 my-20">
         <span className="text-[14px]">Total pUSD staked</span>
         <div className="w-full flex items-center justify-center gap-4">
           <img
@@ -46,26 +46,26 @@ export default function StakingComponent() {
             {value.toLocaleString()}
           </span>
         </div>
-      </div>
+      </div> */}
       <motion.div
         initial={{ opacity: 0, y: -60 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full flex items-start lg:items-start justify-center px-4 lg:px-0"
-        // style={{ height: "calc(100vh - 186px)" }}
+        className="w-full flex items-start lg:items-center justify-center px-4 lg:px-0"
+      // style={{ height: "calc(100vh - 186px)" }}
       >
-        <div className="w-full max-w-lg bg-brand-bg rounded-lg shadow-md border border-white border-opacity-10 overflow-hidden">
-          <div className="w-full flex flex-col items-center justify-center">
+        <div className="w-full max-w-lg bg-[#0B0D0F] rounded-lg shadow-md border border-[#191C1F]  min-h-10">
+          <div className="w-full flex flex-col items-start justify-start">
             {/* tabs */}
-            <div className="w-full flex items-center justify-between gap-4 p-2">
-              <div className="w-3/5 flex items-center justify-start border border-white border-opacity-10 rounded-xl gap-1">
+            <div className="w-full flex items-center justify-between gap-4">
+              <div className="w-full flex items-center justify-between">
                 <button
-                  className={`w-1/2 py-1 text-sm font-semibold leading-6 transition-all ease-in-out duration-300 bg-white rounded-lg ${stakingTab === "stake" ? "bg-opacity-100 text-black " : "bg-opacity-0 hover:bg-opacity-20"}`}
+                  className={`w-1/2 flex items-center justify-center p-4  text-white rounded-tl-lg  hover:bg-opacity-40 cursor-pointer  border-r ${stakingTab === "stake" ? "bg-[#0B0D0F] font-black  border-r-[#E5E7EB0A] border-opacity-5" : "bg-[#060708] font-semibold hover:font-black border-transparent"} ease-in-out transition-all duration-300`}
                   onClick={() => setStakingTab("stake")}
                 >
                   Stake
                 </button>
                 <button
-                  className={`w-1/2 py-1 text-sm font-semibold leading-6 transition-all ease-in-out duration-300 bg-white rounded-lg ${stakingTab === "unstake" ? "bg-opacity-100 text-black " : "bg-opacity-0 hover:bg-opacity-20"}`}
+                  className={`w-1/2 flex items-center justify-center p-4   text-white rounded-tr-lg  hover:bg-opacity-40 cursor-pointer border-l ${stakingTab === "unstake" ? "bg-[#0B0D0F] font-black border-l-[#E5E7EB0A] border-opacity-5" : "bg-[#060708] font-semibold hover:font-black border-transparent"} ease-in-out transition-all duration-300`}
                   onClick={() => setStakingTab("unstake")}
                 >
                   Unstake
@@ -77,10 +77,14 @@ export default function StakingComponent() {
                   Claim
                 </button> */}
               </div>
-              <div className="w-2/5 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-xl py-1 flex items-center justify-center gap-2 text-sm">
+
+            </div>
+
+            <div className="w-full px-3 flex items-center justify-start">
+              <div className="bg-white bg-opacity-0 my-4 border border-white border-opacity-5 rounded-xl py-2 px-4 flex items-start justify-start gap-2 text-sm">
                 <span>sPUSD APY</span>
                 {annualYieldRate && wallet.publicKey && (
-                  <span className="text-brand-secondary">
+                  <span className="bg-apy-gradient text-transparent bg-clip-text">
                     {loading ? <> </> : <>{annualYieldRate}%</>}
                   </span>
                 )}
@@ -90,11 +94,11 @@ export default function StakingComponent() {
             {/* content */}
             {stakingTab === "stake" && (
               <motion.div
-                className="p-2"
+                className="p-4 w-full"
                 initial={{ opacity: 0, y: -60 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <div className="relative w-full bg-brand-black border border-white border-opacity-10 rounded-xl flex flex-col items-center justify-center gap-4 p-4">
+                <div className="relative w-full   rounded-xl flex flex-col items-center justify-center gap-4 p-4 px-0">
                   {/* input */}
                   <div className="w-full flex flex-col items-center justify-center gap-2">
                     <div className="w-full flex items-center justify-start">
@@ -102,59 +106,61 @@ export default function StakingComponent() {
                         You Stake
                       </span>
                     </div>
-                    {/* input */}
-                    <div className="w-full flex items-center justify-between gap-4">
+                    <div className="relative w-full flex items-center justify-start">
+                      <div className="flex items-center justify-center gap-2 absolute top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-20">
+                        <Image
+                          width={40}
+                          height={40}
+                          src="/pusd.png"
+                          alt="pusd"
+                          className="w-7 h-7 rounded-full"
+                        />
+                        <div className=" flex flex-col items-start justify-start gap-1">
+                          <span className="font-bold uppercase text-[18px]">
+                            PUSD
+                          </span>
+                        </div>
+                      </div>
                       <input
-                        onChange={handleAmountChange}
-                        value={amount}
                         type="number"
-                        placeholder="0"
-                        className="input w-2/3 focus:bg-transparent input-ghost text-4xl font-semibold leading-6 text-white"
+                        id="amount-buy"
+                        className="w-full input text-end bg-[#1B1E24] px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        onChange={handleAmountChange}
                         onFocus={(e) =>
                           e.target.value === "0" && (e.target.value = "")
                         }
-                      ></input>
-                      <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
-                        <Image
-                          width={20}
-                          height={20}
-                          src="/pusd.png"
-                          alt="pusd"
-                          className="w-4 h-4 object-center rounded-full"
-                        />
-                        <span className="text-sm font-semibold leading-6 text-white">
-                          PUSD
+                      />
+
+                      <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
+                        <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
+                          <span className="text-[20px] -mb-1 text-white">
+                            {amount}
+                          </span>
+                          {/* <span className="text-xs opacity-50">{amount}</span> */}
                         </span>
+                        <div className="flex items-end justify-end gap-1">
+                          <div className="flex items-center justify-end gap-1 pointer-events-none">
+                            <span className="text-xs opacity-40">Balance:</span>
+                            <span className="text-xs ">
+                              {userBalancePUSD.toLocaleString()}
+                            </span>
+                          </div>
+                          <button
+                            className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary  text-[12px] pl-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setAmount(userBalancePUSD);
+                            }}
+                          >
+                            Max
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    {/* balance */}
-                    <div className="w-full flex items-center justify-end gap-2 pr-2">
-                      <span className="text-[10px] font-semibold leading-6 text-gray-500">
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 12 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M0.166016 4.25H11.2493C11.4041 4.25 11.5524 4.31146 11.6618 4.42085C11.7712 4.53025 11.8327 4.67862 11.8327 4.83333V10.6667C11.8327 10.8214 11.7712 10.9697 11.6618 11.0791C11.5524 11.1885 11.4041 11.25 11.2493 11.25H0.749349C0.594639 11.25 0.446266 11.1885 0.33687 11.0791C0.227474 10.9697 0.166016 10.8214 0.166016 10.6667V4.25ZM0.749349 0.75H9.49935V3.08333H0.166016V1.33333C0.166016 1.17862 0.227474 1.03025 0.33687 0.920854C0.446266 0.811458 0.594639 0.75 0.749349 0.75ZM7.74935 7.16667V8.33333H9.49935V7.16667H7.74935Z"
-                            fill="#69707D"
-                          />
-                        </svg>{" "}
-                        {userBalancePUSD.toLocaleString()}
-                      </span>
-                      <span
-                        className="text-[10px] text-brand-secondary text-opacity-60 hover:text-opacity-100 cursor-pointer"
-                        onClick={() => setAmount(userBalancePUSD)}
-                      >
-                        Max
-                      </span>
                     </div>
                   </div>
 
                   {/* separator */}
-                  <div className="w-full h-[2px] bg-brand-secondary bg-opacity-10 flex items-center justify-center relative">
+                  {/* <div className="w-full h-[2px] bg-brand-secondary bg-opacity-10 flex items-center justify-center relative">
                     <motion.div className="absolute w-12 h-8 bg-black left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center border text-brand-secondary border-brand-secondary border-opacity-10 rounded-lg ">
                       <motion.svg
                         whileHover={{ scale: 1.1 }}
@@ -173,7 +179,7 @@ export default function StakingComponent() {
                         />
                       </motion.svg>
                     </motion.div>
-                  </div>
+                  </div> */}
 
                   {/* output */}
                   <div className="w-full flex flex-col items-center justify-center gap-2">
@@ -182,69 +188,67 @@ export default function StakingComponent() {
                         You receive
                       </span>
                     </div>
-                    {/* output input field */}
-                    <div className="w-full flex items-center justify-between gap-4">
-                      <input
-                        disabled
-                        value={exchangedAmount}
-                        type="number"
-                        placeholder="0"
-                        className="input disabled:bg-transparent -ml-4 border-0 w-2/3 input-ghost text-4xl font-semibold leading-6 text-white"
-                      ></input>
-                      <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-0 border border-white border-opacity-10 py-2 px-4 rounded-xl">
+                    <div className="relative w-full flex items-center justify-start">
+                      <div className="flex items-center justify-center gap-2 absolute top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-20">
                         <Image
-                          width={20}
-                          height={20}
+                          width={40}
+                          height={40}
                           src="/spusd.png"
                           alt="spusd"
-                          className="w-4 h-4 object-center opacity-80 rounded-full"
+                          className="w-7 h-7 rounded-full"
                         />
-                        <span className="text-sm font-semibold leading-6 text-white text-opacity-60">
-                          sPUSD
-                        </span>
+                        <div className=" flex flex-col items-start justify-start gap-1">
+                          <span className="font-bold uppercase text-[18px]">
+                            sPUSD
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    {/* balance */}
-                    <div className="w-full flex items-center justify-end gap-2 pr-2">
-                      <span className="text-[10px] font-semibold leading-6 text-gray-500">
-                        Balance: {userBalanceSPUSD.toLocaleString()}
-                      </span>
+                      <input
+                        type="number"
+                        id="amount-buy"
+                        disabled
+                        className="w-full input text-end bg-[#1B1E24] px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        onChange={handleAmountChange}
+                        onFocus={(e) =>
+                          e.target.value === "0" && (e.target.value = "")
+                        }
+                      />
+
+                      <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
+                        <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
+                          <span className="text-[20px] -mb-1 text-white">
+                            {amount}
+                          </span>
+                          {/* <span className="text-xs opacity-50">{amount}</span> */}
+                        </span>
+                        <div className="flex items-end justify-end gap-1">
+                          <div className="flex items-center justify-end gap-1 pointer-events-none">
+                            <span className="text-xs opacity-40">Balance:</span>
+                            <span className="text-xs ">
+                              {userBalanceSPUSD.toLocaleString()}
+                            </span>
+                          </div>
+
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* stats eligible */}
-                <div className="mt-4 w-full flex items-center justify-between p-2">
-                  <div className="flex items-center justify-center gap-2">
-                    <Image
-                      width={20}
-                      height={20}
-                      src="/usdc.png"
-                      alt=""
-                      className="w-4 h-4 object-center"
-                    />
-                    <span className="text-sm font-thin leading-6 text-gray-200">
-                      Stats Eligible
-                    </span>
-                  </div>
+                <div className="mt-4 w-full flex items-center justify-end mb-4">
                   <div className="">
-                    <span className="text-sm font-thin leading-6 text-gray-200">
+                    <span className="text-xs font-thin leading-6 text-gray-200">
                       Fees: $0
                     </span>
                   </div>
                 </div>
 
-                {/* banner */}
-                {/* <div className="w-full bg-white bg-opacity-10 rounded-xl flex items-center justify-center gap-4 p-2 my-4">
-                  <Image width={20} height={20} src="/usdc.png" alt="" className='w-4 h-4 object-center' />
-                  <span className="text-sm font-semibold leading-6 text-white">sPUSD will be available to claim 7 days after unstaking.</span>
-                </div> */}
-
                 {/* button */}
                 <div className="w-full flex items-center justify-center">
                   {wallet.publicKey ? (
                     <button
-                      className={`w-full h-full rounded-lg text-brand-secondary py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-secondary ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20  bg-opacity-10 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
+                      className={`w-full h-full rounded-lg text-white py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-first ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20  bg-opacity-100 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
                       disabled={loading || amount === 0}
                       onClick={handleStake}
                     >
@@ -259,76 +263,74 @@ export default function StakingComponent() {
 
             {stakingTab === "unstake" && (
               <motion.div
-                className="p-2"
+                className="p-4 w-full"
                 initial={{ opacity: 0, y: -60 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <div className="relative w-full bg-brand-black border border-white border-opacity-10 rounded-xl flex flex-col items-center justify-center gap-4 p-4">
+                <div className="relative w-full   rounded-xl flex flex-col items-center justify-center gap-4 p-4 px-0">
                   {/* input */}
                   <div className="w-full flex flex-col items-center justify-center gap-2">
                     <div className="w-full flex items-center justify-start">
                       <span className="text-sm font-semibold leading-6 text-white">
-                        You unstake
+                        To receive
                       </span>
                     </div>
-                    {/* input */}
-                    <div className="w-full flex items-center justify-between gap-4">
+                    <div className="relative w-full flex items-center justify-start">
+                      <div className="flex items-center justify-center gap-2 absolute top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-20">
+                        <Image
+                          width={40}
+                          height={40}
+                          src="/spusd.png"
+                          alt="spusd"
+                          className="w-7 h-7 rounded-full"
+                        />
+                        <div className=" flex flex-col items-start justify-start gap-1">
+                          <span className="font-bold uppercase text-[18px]">
+                            sPUSD
+                          </span>
+                        </div>
+                      </div>
                       <input
-                        onChange={handleAmountChange}
                         type="number"
-                        value={amount}
-                        placeholder="0"
-                        className="input w-2/3 focus:bg-transparent input-ghost text-4xl font-semibold leading-6 text-white"
+                        id="amount-buy"
+
+                        className="w-full input text-end bg-[#1B1E24] px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        onChange={handleAmountChange}
                         onFocus={(e) =>
                           e.target.value === "0" && (e.target.value = "")
                         }
-                      ></input>
-                      <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
-                        <Image
-                          width={20}
-                          height={20}
-                          src="/spusd.png"
-                          alt="spusd"
-                          className="w-4 h-4 object-center rounded-full"
-                        />
-                        <span className="text-sm font-semibold leading-6 text-white">
-                          sPUSD
+                      />
+
+
+                      <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
+                        <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
+                          <span className="text-[20px] -mb-1 text-white">
+                            {amount}
+                          </span>
+                          {/* <span className="text-xs opacity-50">{amount}</span> */}
                         </span>
+                        <div className="flex items-end justify-end gap-1">
+                          <div className="flex items-center justify-end gap-1 pointer-events-none">
+                            <span className="text-xs opacity-40">Balance:</span>
+                            <span className="text-xs ">
+                              {userBalanceSPUSD.toLocaleString()}
+                            </span>
+                          </div>
+                          <button
+                            className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary  text-[12px] pl-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setAmount(userBalanceSPUSD);
+                            }}
+                          >
+                            Max
+                          </button>
+                        </div>
                       </div>
                     </div>
-                    {/* balance */}
-                    <div className="w-full flex items-center justify-end gap-2 pr-2">
-                      <span className="text-[10px] font-semibold leading-6 text-gray-500">
-                        Balance: {userBalanceSPUSD.toLocaleString()}
-                      </span>
-                      <span
-                        className="text-[10px] text-brand-secondary text-opacity-60 hover:text-opacity-100 cursor-pointer"
-                        onClick={() => setAmount(userBalanceSPUSD)}
-                      >
-                        Max
-                      </span>
-                    </div>
+
                   </div>
 
-                  {/* separator */}
-                  <div className="w-full h-[2px] bg-brand-secondary bg-opacity-10 flex items-center justify-center relative">
-                    <div className="absolute w-12 h-8 bg-black left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center border text-brand-secondary border-brand-secondary border-opacity-10 rounded-lg ">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
-                        />
-                      </svg>
-                    </div>
-                  </div>
 
                   {/* output */}
                   <div className="w-full flex flex-col items-center justify-center gap-2">
@@ -337,69 +339,67 @@ export default function StakingComponent() {
                         You receive
                       </span>
                     </div>
-                    {/* input field */}
-                    <div className="w-full flex items-center justify-between gap-4">
-                      <input
-                        disabled
-                        value={exchangedAmount}
-                        type="number"
-                        placeholder="0"
-                        className="input disabled:bg-transparent -ml-4 border-0 w-2/3 input-ghost text-4xl font-semibold leading-6 text-white"
-                      ></input>
-                      <div className="w-1/3 flex items-center justify-start gap-4 bg-white bg-opacity-5 border border-white border-opacity-20 py-2 px-4 rounded-xl">
+                    <div className="relative w-full flex items-center justify-start">
+                      <div className="flex items-center justify-center gap-2 absolute top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-20">
                         <Image
-                          width={20}
-                          height={20}
+                          width={40}
+                          height={40}
                           src="/pusd.png"
                           alt="pusd"
-                          className="w-4 h-4 object-center rounded-full"
+                          className="w-7 h-7 rounded-full"
                         />
-                        <span className="text-sm font-semibold leading-6 text-white">
-                          PUSD
-                        </span>
+                        <div className=" flex flex-col items-start justify-start gap-1">
+                          <span className="font-bold uppercase text-[18px]">
+                            PUSD
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    {/* balance */}
-                    <div className="w-full flex items-center justify-end gap-2 pr-2">
-                      <span className="text-[10px] font-semibold leading-6 text-gray-500">
-                        Balance: {userBalancePUSD.toLocaleString()}
-                      </span>
+                      <input
+                        type="number"
+                        id="amount-buy"
+                        disabled
+                        className="w-full input text-end bg-[#1B1E24] px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        onChange={handleAmountChange}
+                        value={exchangedAmount}
+                        onFocus={(e) =>
+                          e.target.value === "0" && (e.target.value = "")
+                        }
+                      />
+
+                      <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
+                        <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
+                          <span className="text-[20px] -mb-1 text-white">
+                            {amount}
+                          </span>
+                          {/* <span className="text-xs opacity-50">{amount}</span> */}
+                        </span>
+                        <div className="flex items-end justify-end gap-1">
+                          <div className="flex items-center justify-end gap-1 pointer-events-none">
+                            <span className="text-xs opacity-40">Balance:</span>
+                            <span className="text-xs ">
+                              {userBalancePUSD.toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* stats eligible */}
-                <div className="mt-4 w-full flex items-center justify-between p-2">
-                  <div className="flex items-center justify-center gap-2">
-                    <Image
-                      width={20}
-                      height={20}
-                      src="/usdc.png"
-                      alt=""
-                      className="w-4 h-4 object-center rounded-full"
-                    />
-                    <span className="text-sm font-thin leading-6 text-gray-200">
-                      Stats Eligible
-                    </span>
-                  </div>
+                <div className="mt-4 w-full flex items-center justify-end mb-4">
                   <div className="">
-                    <span className="text-sm font-thin leading-6 text-gray-200">
+                    <span className="text-xs font-thin leading-6 text-gray-200">
                       Fees: $0
                     </span>
                   </div>
                 </div>
 
-                {/* banner */}
-                {/* <div className="w-full bg-white bg-opacity-10 rounded-xl flex items-center justify-center gap-4 p-2 my-4">
-                  <img src="/usdc.png" alt="" className='w-4 h-4 object-center' />
-                  <span className="text-sm font-semibold leading-6 text-white">USDe will be available to claim 7 days after unstaking.</span>
-                </div> */}
-
                 {/* button */}
                 <div className="w-full flex items-center justify-center">
                   {wallet.publicKey ? (
                     <button
-                      className={`w-full h-full rounded-lg text-brand-secondary py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-secondary ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20  bg-opacity-10 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
+                      className={`w-full h-full rounded-lg text-white py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-first ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20  bg-opacity-100 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
                       disabled={loading || amount === 0}
                       onClick={handleUnstake}
                     >
