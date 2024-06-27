@@ -33,6 +33,8 @@ import {
 import { toast } from "sonner";
 import { TransactionBuilder } from "@metaplex-foundation/umi";
 import bs58 from "bs58";
+import { PublicKey, publicKey } from "@metaplex-foundation/umi";
+import { PublicKey as WEb3Publickey } from "@solana/web3.js";
 
 // TODO: Move this into npm package
 const bigIntToFloat = (
@@ -56,6 +58,7 @@ export const useSold = () => {
   const [reset, setReset] = useState(0);
   const [userBalancePUSD, setUserBalancePUSD] = useState(0);
   const [userBalanceSPUSD, setUserBalanceSPUSD] = useState(0);
+  const [userBalanceUSDC, setUserBalanceUSDC] = useState(0);
   const [exchangeRate, setExchangeRate] = useState(0);
 
   const [statCardData, setStatCardData] = useState<{
@@ -85,98 +88,106 @@ export const useSold = () => {
   const tokenManagerPubKey = findTokenManagerPda(umi);
   const poolManagerPubKey = findPoolManagerPda(umi);
 
-  useEffect(() => {
-    const fetchState = async () => {
-      setLoading(true);
+useEffect(() => {
+  const fetchState = async () => {
+    setLoading(true);
 
-      const tokenManagerAcc = await safeFetchTokenManager(
-        umi,
-        tokenManagerPubKey,
+    const tokenManagerAcc = await safeFetchTokenManager(umi, tokenManagerPubKey);
+    const poolManagerAcc = await safeFetchPoolManager(umi, poolManagerPubKey);
+
+    setTokenManager(tokenManagerAcc);
+    setPoolManager(poolManagerAcc);
+
+    if (poolManagerAcc) {
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      const lastYieldChangeTimestamp = Number(poolManagerAcc.lastYieldChangeTimestamp);
+      const lastYieldChangeExchangeRate = Number(poolManagerAcc.lastYieldChangeExchangeRate);
+      const rate = calculateExchangeRate(
+        lastYieldChangeTimestamp,
+        currentTimestamp,
+        Number(poolManagerAcc.annualYieldRate),
+        lastYieldChangeExchangeRate,
       );
-      const poolManagerAcc = await safeFetchPoolManager(umi, poolManagerPubKey);
-
-      setTokenManager(tokenManagerAcc);
-      setPoolManager(poolManagerAcc);
-
-      // Calculate exchange rate if poolManager is available
-      if (poolManagerAcc) {
-        const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
-        const lastYieldChangeTimestamp = Number(
-          poolManagerAcc.lastYieldChangeTimestamp,
-        ); // Convert bigint to number
-        const lastYieldChangeExchangeRate = Number(
-          poolManagerAcc.lastYieldChangeExchangeRate,
-        ); // Convert bigint to number
-        const rate = calculateExchangeRate(
-          lastYieldChangeTimestamp,
-          currentTimestamp,
-          Number(poolManagerAcc.annualYieldRate), // Convert bigint to number
-          lastYieldChangeExchangeRate,
-        );
-        setExchangeRate(rate);
-      }
-
-      // Stat stat cards
-      tokenManagerAcc &&
-        setStatCardData({
-          totalSupply: bigIntToFloat(
-            tokenManagerAcc.totalSupply,
-            tokenManagerAcc.mintDecimals,
-          ),
-          usdcInPool: bigIntToFloat(
-            tokenManagerAcc.totalCollateral,
-            tokenManagerAcc.quoteMintDecimals,
-          ),
-          totalStaked: 0,
-          xSoldSupply: 0,
-        });
-
-      setLoading(false);
-    };
-
-    if (wallet.publicKey) {
-      fetchState();
+      setExchangeRate(rate);
     }
-  }, [wallet.publicKey, reset]);
+
+    tokenManagerAcc && setStatCardData({
+      totalSupply: bigIntToFloat(tokenManagerAcc.totalSupply, tokenManagerAcc.mintDecimals),
+      usdcInPool: bigIntToFloat(tokenManagerAcc.totalCollateral, tokenManagerAcc.quoteMintDecimals),
+      totalStaked: 0,
+      xSoldSupply: 0,
+    });
+
+    setLoading(false);
+  };
+
+  if (wallet.publicKey) {
+    fetchState();
+  }
+}, [wallet.publicKey, reset]);
+
+useEffect(() => {
+  getUserBalances();
+}, [tokenManager, poolManager]);
+
+// Debugging logs
+useEffect(() => {
+  console.log('User balances:', { userBalancePUSD, userBalanceSPUSD, userBalanceUSDC });
+}, [userBalancePUSD, userBalanceSPUSD, userBalanceUSDC]);
+
+
+const USDC_MINT_ADDRESS = publicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
+
 
   // Inside useSold hook, add logs to check fetched balances
-  const getUserBalances = async () => {
-    if (!tokenManager || !poolManager) {
-      console.log("Token manager or pool manager not found");
-      return;
-    }
+ const getUserBalances = async () => {
+  if (!tokenManager || !poolManager) {
+    console.log("Token manager or pool manager not found");
+    return;
+  }
 
-    const userBase = findAssociatedTokenPda(umi, {
-      owner: umi.identity.publicKey,
-      mint: poolManager.baseMint,
-    });
-    const userXMint = findAssociatedTokenPda(umi, {
-      owner: umi.identity.publicKey,
-      mint: poolManager.xMint,
-    });
-    // Correctly define xMint as a PublicKey
+  const userBase = findAssociatedTokenPda(umi, {
+    owner: umi.identity.publicKey,
+    mint: poolManager.baseMint,
+  });
+  const userXMint = findAssociatedTokenPda(umi, {
+    owner: umi.identity.publicKey,
+    mint: poolManager.xMint,
+  });
+  const userUSDC = findAssociatedTokenPda(umi, {
+    owner: umi.identity.publicKey,
+    mint: USDC_MINT_ADDRESS,
+  });
 
-    const userBaseAtaAcc = await safeFetchToken(umi, userBase);
-    const userXmintAtaAcc = await safeFetchToken(umi, userXMint);
+  const userBaseAtaAcc = await safeFetchToken(umi, userBase);
+  const userXmintAtaAcc = await safeFetchToken(umi, userXMint);
+  const userUSDCAtaAcc = await safeFetchToken(umi, userUSDC);
 
-    console.log(
-      "Fetched Balances:",
-      userBaseAtaAcc?.amount,
-      userXmintAtaAcc?.amount,
-      userXmintAtaAcc?.amount,
-    ); // Debug fetched balances including xMint
+  console.log(
+    "Fetched Balances:",
+    userBaseAtaAcc?.amount,
+    userXmintAtaAcc?.amount,
+    userUSDCAtaAcc?.amount,
+  ); // Debug fetched balances including xMint
 
-    setUserBalancePUSD(
-      userBaseAtaAcc
-        ? bigIntToFloat(userBaseAtaAcc.amount, tokenManager.mintDecimals)
-        : 0,
-    );
-    setUserBalanceSPUSD(
-      userXmintAtaAcc
-        ? bigIntToFloat(userXmintAtaAcc.amount, tokenManager.quoteMintDecimals)
-        : 0,
-    );
-  };
+  setUserBalancePUSD(
+    userBaseAtaAcc
+      ? bigIntToFloat(userBaseAtaAcc.amount, tokenManager.mintDecimals)
+      : 0,
+  );
+  setUserBalanceSPUSD(
+    userXmintAtaAcc
+      ? bigIntToFloat(userXmintAtaAcc.amount, tokenManager.quoteMintDecimals)
+      : 0,
+  );
+  setUserBalanceUSDC(
+    userUSDCAtaAcc
+      ? bigIntToFloat(userUSDCAtaAcc.amount, 6) // Assuming 6 is the decimal for USDC
+      : 0,
+  );
+};
+
+
   useEffect(() => {
     getUserBalances();
   }, [tokenManager, poolManager]);
@@ -447,9 +458,11 @@ export const useSold = () => {
     poolManager,
     refetch,
     loading,
+    setLoading,
     statCardData,
     userBalancePUSD,
     userBalanceSPUSD,
+    userBalanceUSDC,
     amount,
     setAmount,
     exchangedAmount,

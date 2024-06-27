@@ -71,8 +71,9 @@
     @apply border-border;
   }
   /* Custom Wallet Button */
-  .mymultibutton {
-    @apply bg-black text-white hover:text-black hover:bg-brand-main !important;
+  .mymultibutton,
+  .wallet-adapter-button {
+    @apply  text-white  hover:bg-opacity-80 flex items-center justify-center break-before-avoid !important;
     border: 1px solid black !important;
   }
 
@@ -255,11 +256,11 @@
   .navLink {
     @apply px-2 py-1 rounded-md hover:text-[#43b083] dark:hover:text-[#14F195] bg-opacity-20;
   }
-
+/* 
   .wallet-adapter-button,
   .mymultibutton {
     @apply !rounded-xl;
-  }
+  } */
 
   /* Glow Buttons */
   .glow-on-hover {

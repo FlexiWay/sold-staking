@@ -23,19 +23,19 @@ export default function Example() {
         className="mx-auto flex w-full container items-center justify-between p-4 lg:px-8 "
         aria-label="Global"
       >
-        <div className="flex items-center gap-x-12 w-full">
+        <div className="flex items-center gap-x-12 ">
           <Logo />
-          <div className="hidden lg:flex lg:gap-x-12 flex-grow items-center justify-center -mb-12">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className={`text-sm font-semibold leading-6 border-b-2 transition-all ease-in-out duration-300 py-4 ${item.href === pathname ? "border-b-brand-first text-brand-first" : "border-b-transparent hover:text-brand-first hover:border-b-brand-first"}`}
-              >
-                {item.name}
-              </a>
-            ))}
-          </div>
+        </div>
+        <div className="hidden lg:flex lg:gap-x-12  flex-grow items-center justify-center -mb-24">
+          {navigation.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              className={`text-sm font-semibold leading-6 border-b-2 transition-all ease-in-out duration-300 py-4 ${item.href === pathname ? "border-b-brand-first text-brand-first" : "border-b-transparent hover:text-brand-first hover:border-b-brand-first"}`}
+            >
+              {item.name}
+            </a>
+          ))}
         </div>
         <div className="flex lg:hidden">
           <button
@@ -47,7 +47,7 @@ export default function Example() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden lg:flex">
+        <div className="hidden lg:flex ">
           <MyMultiButton />
         </div>
       </nav>
