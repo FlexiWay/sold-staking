@@ -80,7 +80,7 @@ export default function StakingComponent() {
 
             </div>
 
-            <div className="w-full px-3 flex items-center justify-start">
+            <div className="w-full px-3 flex items-center justify-start -mb-4">
               <div className="bg-white bg-opacity-0 my-4 border border-white border-opacity-5 rounded-xl py-2 px-4 flex items-start justify-start gap-2 text-sm">
                 <span>sPUSD APY</span>
                 {annualYieldRate && wallet.publicKey && (

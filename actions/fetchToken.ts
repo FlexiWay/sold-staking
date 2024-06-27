@@ -1,7 +1,7 @@
 "use server"
 
 export const getAsset = async () => {
-    const response = await fetch(`https://mainnet.helius-rpc.com/?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}`, {
+    const response = await fetch(`https://mainnet.helius-rpc.com/?api-key=${process.env.HELIUS_API_KEY}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

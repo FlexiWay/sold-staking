@@ -1,7 +1,7 @@
 "use server"
 
 export const getBurnLeaderboard = async () => {
-    const url = `https://api.helius.xyz/v0/addresses/DeVwhQE3FsUcqXq3AKjdwwjLVZZqaz9URwLghMUCtN4u/transactions?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}&type=BURN`;
+    const url = `https://api.helius.xyz/v0/addresses/DeVwhQE3FsUcqXq3AKjdwwjLVZZqaz9URwLghMUCtN4u/transactions?api-key=${process.env.HELIUS_API_KEY}&type=BURN`;
     let lastSignature = null;
 
     const transactionsArr = []

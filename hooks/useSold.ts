@@ -91,7 +91,6 @@ export const useSold = () => {
 useEffect(() => {
   const fetchState = async () => {
     setLoading(true);
-
     const tokenManagerAcc = await safeFetchTokenManager(umi, tokenManagerPubKey);
     const poolManagerAcc = await safeFetchPoolManager(umi, poolManagerPubKey);
 
@@ -119,6 +118,7 @@ useEffect(() => {
     });
 
     setLoading(false);
+
   };
 
   if (wallet.publicKey) {
@@ -145,6 +145,7 @@ const USDC_MINT_ADDRESS = publicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1
     console.log("Token manager or pool manager not found");
     return;
   }
+
 
   const userBase = findAssociatedTokenPda(umi, {
     owner: umi.identity.publicKey,
@@ -231,6 +232,7 @@ const USDC_MINT_ADDRESS = publicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1
     }
 
     setLoading(true);
+    toast.loading("Staking");
 
     try {
       let txBuilder = new TransactionBuilder();
@@ -318,8 +320,10 @@ const USDC_MINT_ADDRESS = publicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1
       console.log("User XMint Balance After:", userXAfter?.amount);
       console.log("Vault BaseMint Balance After:", vaultAfter?.amount);
 
-      toast("Staked successfully");
+      toast.success("Staked successfully");
+
       refetch();
+      toast.dismiss
     } catch (error) {
       console.error("Failed to handle stake action:", error);
       toast.error("Failed to handle stake action");
@@ -327,6 +331,7 @@ const USDC_MINT_ADDRESS = publicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1
     }
 
     setLoading(false);
+    toast.dismiss();
   };
 
   const handleUnstake = async (e: any) => {
@@ -336,6 +341,7 @@ const USDC_MINT_ADDRESS = publicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1
     }
 
     setLoading(true);
+    toast.loading("Unstaking");
 
     try {
       let txBuilder = new TransactionBuilder();
@@ -451,6 +457,7 @@ const USDC_MINT_ADDRESS = publicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1
     }
 
     setLoading(false);
+    toast.dismiss();
   };
 
   return {
