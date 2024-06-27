@@ -30,13 +30,12 @@ export default function SwapComponent() {
     setAmount(parseFloat(event.target.value));
   };
 
-  const value = 2412238490;
-
   const [buy, setBuy] = useState('buy')
 
   const [slippageModalOpen, setSlippageModalOpen] = useState(false)
 
-  const StakingModal = () => {
+
+  const SwapSlippageModal = () => {
 
     return (
       <>
@@ -264,7 +263,7 @@ export default function SwapComponent() {
       </motion.div>
 
       {
-        slippageModalOpen && <StakingModal />
+        slippageModalOpen && <SwapSlippageModal />
       }
     </section>
   );
