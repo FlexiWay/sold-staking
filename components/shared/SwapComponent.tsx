@@ -16,7 +16,11 @@ const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_URL!);
 
 const fetchQuote = async (amount: number, inputMint: string, outputMint: string, slippage: number) => {
   try {
-    const response = await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${amount}&slippageBps=${slippage}`);
+    //console.log("fetching quote");
+    console.log("Slippage:",slippage);
+    //console.log(amount);
+    const slippageBps = Math.floor(slippage * 100); // Convert slippage to basis points
+    const response = await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${amount}&slippageBps=${slippageBps}`);
     if (!response.ok) {
       throw new Error(`API Error: ${response.statusText}`);
     }
@@ -30,6 +34,7 @@ const fetchQuote = async (amount: number, inputMint: string, outputMint: string,
 
 const prepareSwapTransaction = async (quote: any, walletPublicKey: PublicKey) => {
   try {
+    //console.log(quote);
     const response = await fetch('https://quote-api.jup.ag/v6/swap', {
       method: 'POST',
       headers: {
@@ -66,6 +71,7 @@ const signAndSendTransaction = async (transactionBuffer: Buffer | Uint8Array, wa
         preflightCommitment: "confirmed"
       });
       await connection.confirmTransaction(txid);
+      console.log(`Transaction successful: https://solscan.io/tx/${txid}`);
       toast.success(`Transaction successful: https://solscan.io/tx/${txid}`);
     } else {
       toast.error("Wallet is not connected or cannot sign transactions");
@@ -80,7 +86,7 @@ const SwapComponent = () => {
   const { connection } = useConnection();
   const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [slippage, setSlippage] = useState(0);
+  const [slippage, setSlippage] = useState(0.3);
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
   const [routes, setRoutes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -107,7 +113,7 @@ const SwapComponent = () => {
     amount: 1 * 10 ** 6, // unit in lamports (Decimals)
     inputMint: new PublicKey(INPUT_MINT_ADDRESS),
     outputMint: new PublicKey(OUTPUT_MINT_ADDRESS),
-    slippage: null, // 0.1%
+   // slippage: null, // 0.1%
   });
 
   const handleAmountChange = (event: { target: { value: string; }; }) => {
@@ -121,7 +127,10 @@ const SwapComponent = () => {
   const fetchRoute = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${formValue.inputMint.toBase58()}&outputMint=${formValue.outputMint.toBase58()}&amount=${formValue.amount}&slippageBps=${formValue.slippage}`);
+      //console.log("calling route");
+      //console.log(slippage);
+      const slippageBps = Math.floor(slippage * 100); // Convert slippage to basis points
+      const response = await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${formValue.inputMint.toBase58()}&outputMint=${formValue.outputMint.toBase58()}&amount=${formValue.amount}&slippageBps=${slippageBps}`);
       const data = await response.json();
       if (data) {
         setRoutes(data.data);
@@ -169,7 +178,8 @@ const SwapComponent = () => {
   };
 
   const SwapSlippageModal = () => {
-    const [activeMode, setActiveMode] = useState(0.3);
+    const [activeMode, setActiveMode] = useState(slippage);
+    //console.log(activeMode);
 
     const modes = [
       { value: 0 },
@@ -180,6 +190,7 @@ const SwapComponent = () => {
 
 
     const handleSaveSlippage = () => {
+      //console.log("new added slippage:",activeMode);
       setSlippage(activeMode);
       toast.success("Slippage settings saved!");
     };

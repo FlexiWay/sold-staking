@@ -1,12 +1,12 @@
 import { Jupiter } from '@jup-ag/core';
-import { Connection, Keypair } from '@solana/web3.js';
+import { Cluster, Connection, Keypair } from '@solana/web3.js';
 import { toast } from 'sonner';
 
 export const handleFixedSwap = async (connection: Connection, USER_KEYPAIR: Keypair, INPUT_MINT_ADDRESS: string, OUTPUT_MINT_ADDRESS: string) => {
   try {
     const jupiter = await Jupiter.load({
       connection,
-      cluster: process.env.NEXT_PUBLIC_CLUSTER || "mainnet-beta",
+      cluster: process.env.NEXT_PUBLIC_CLUSTER as Cluster || "mainnet-beta",
       user: USER_KEYPAIR,
     });
 
@@ -20,7 +20,7 @@ export const handleFixedSwap = async (connection: Connection, USER_KEYPAIR: Keyp
     }
 
     // Additional logic to perform the swap can be added here
-  } catch (error) {
+  } catch (error:any) {
     toast.error("Failed to load Jupiter instance: " + error.message);
   }
 };
