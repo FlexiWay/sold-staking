@@ -73,7 +73,7 @@
   /* Custom Wallet Button */
   .mymultibutton,
   .wallet-adapter-button {
-    @apply  text-white  hover:bg-opacity-80 flex items-center justify-center break-before-avoid !important;
+    @apply  text-white  hover:bg-opacity-80 flex items-center relative z-0 justify-center break-before-avoid !important;
     border: 1px solid black !important;
   }
 

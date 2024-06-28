@@ -169,30 +169,20 @@ const SwapComponent = () => {
   };
 
   const SwapSlippageModal = () => {
-    const [activeMode, setActiveMode] = useState("Dynamic");
+    const [activeMode, setActiveMode] = useState(0.3);
 
     const modes = [
-      {
-        title: 'Dynamic',
-        desc: 'Dynamic mode attempts to optimise slippage between success rate, and sandwich protection through a series of simulations.'
-      },
-      // {
-      //   title: 'Auto',
-      //   desc: '',
-      //   type: {
-      //     auto: {
-      //       desc: 'Jupiter intelligently decides the best slippage for your quote.'
-      //     },
-      //     custom: {
-      //       desc: 'Jupiter intelligently decides the best slippage for your quote, while capping it at the max slippage you set.'
-      //     }
-      //   }
-      // },
-      // {
-      //   title: 'Fixed',
-      //   desc: ''
-      // }
-    ];
+      { value: 0 },
+      { value: 0.3 },
+      { value: 0.5 },
+      { value: 1 }
+    ]
+
+
+    const handleSaveSlippage = () => {
+      setSlippage(activeMode);
+      toast.success("Slippage settings saved!");
+    };
 
     return (
       <motion.div
@@ -220,18 +210,24 @@ const SwapComponent = () => {
           </div>
 
           {/* mode */}
-          <div className="w-full flex items-center justify-between my-8">
-            <span>Mode:</span>
-            <div className="flex items-center justify-center gap-2">
+          <div className="w-full flex flex-col items-start justify-start my-8 gap-2">
+            <span>Slippage:</span>
+            <div className="flex items-center justify-between gap-2 w-full">
               {modes.map((mode, index) => (
                 <button
                   key={index}
-                  onClick={() => setActiveMode(mode.title)}
-                  className={`border border-brand-secondary rounded-full px-3 py-1 transition-all duration-300 ease-in-out ${activeMode === mode.title ? 'bg-brand-secondary bg-opacity-40 text-brand-secondary' : 'text-white'}`}
+                  onClick={() => setActiveMode(mode.value)}
+                  className={`border w-1/5 border-brand-secondary rounded-full px-3 py-1 transition-all duration-300 ease-in-out ${activeMode === mode.value ? 'bg-brand-secondary bg-opacity-40 text-brand-secondary' : 'text-white'}`}
                 >
-                  {mode.title}
+                  {mode.value}%
                 </button>
               ))}
+              <input
+                type="number"
+                placeholder={`${slippage.toString()}%`}
+                className="border border-brand-secondary rounded-full px-3 py-1 transition-all duration-300 ease-in-out w-1/5"
+                onChange={(e) => setActiveMode(parseFloat(e.target.value))}
+              />
             </div>
           </div>
 
@@ -239,7 +235,7 @@ const SwapComponent = () => {
           <div className="w-full h-[2px] bg-brand-secondary bg-opacity-30 mb-4"></div>
 
           {/* contents */}
-          {activeMode === 'Dynamic' && (
+          {/* {activeMode === 'Dynamic' && (
             <>
               <div className="w-full flex flex-col items-center justify-center my-2">
                 <div className="w-full flex items-center justify-end gap-2">
@@ -262,26 +258,13 @@ const SwapComponent = () => {
                 <p className='text-xs mt-4 opacity-50'>{ }</p>
               </div>
             </>
-          )}
-          {/* {activeMode === 'Auto' && (
-            <>
-              <div className="w-full flex flex-col items-center justify-center my-2">
-                <div className="w-full flex items-center justify-between">
-                  <span className='text-base'>Max Slippage:</span>
-                  <div className="min-w-[120px] border border-brand-secondary bg-brand-secondary bg-opacity-20 rounded-lg flex items-center justify-end text-end py-1 px-2">
-                    3%
-                  </div>
-                </div>
-                <p className='text-xs mt-4 opacity-50'>{modes[1].desc}</p>
-              </div>
-            </>
           )} */}
 
           {/* button */}
           <div className="w-full flex items-center justify-center mt-4">
             <button
               className={`w-full h-full rounded-lg bg-apy-gradient border border-brand-first text-transparent bg-clip-text py-4 px-8 disabled:cursor-not-allowed uppercase ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20 bg-opacity-100 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
-              onClick={handleSwap}
+              onClick={handleSaveSlippage}
             >
               {loading ? <Spin /> : 'Save Settings'}
             </button>
@@ -429,7 +412,7 @@ const SwapComponent = () => {
                 </div>
               </div>
 
-              <div className="w-full flex items-center justify-center">
+              <div className="w-full flex items-center justify-center relative z-0">
                 {wallet.publicKey ? (
                   <button
                     className={`w-full h-full rounded-lg text-white py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-first ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20 bg-opacity-100 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
