@@ -210,14 +210,14 @@ const SwapComponent = () => {
           </div>
 
           {/* mode */}
-          <div className="w-full flex flex-col items-start justify-start my-8 gap-2">
+          <div className="w-full flex flex-col items-start justify-start my-8 gap-4">
             <span>Slippage:</span>
             <div className="flex items-center justify-between gap-2 w-full">
               {modes.map((mode, index) => (
                 <button
                   key={index}
                   onClick={() => setActiveMode(mode.value)}
-                  className={`border w-1/5 border-brand-secondary rounded-full px-3 py-1 transition-all duration-300 ease-in-out ${activeMode === mode.value ? 'bg-brand-secondary bg-opacity-40 text-brand-secondary' : 'text-white'}`}
+                  className={`border w-1/5 border-brand-first rounded-lg px-3 py-1 transition-all duration-300 ease-in-out ${activeMode === mode.value ? 'bg-brand-first bg-opacity-20 text-brand-first' : 'text-white'}`}
                 >
                   {mode.value}%
                 </button>
@@ -225,14 +225,24 @@ const SwapComponent = () => {
               <input
                 type="number"
                 placeholder={`${slippage.toString()}%`}
-                className="border border-brand-secondary rounded-full px-3 py-1 transition-all duration-300 ease-in-out w-1/5"
+                className="border border-brand-first rounded-lg px-3 py-1 transition-all duration-300 ease-in-out w-1/5"
                 onChange={(e) => setActiveMode(parseFloat(e.target.value))}
               />
             </div>
           </div>
 
           {/* separator */}
-          <div className="w-full h-[2px] bg-brand-secondary bg-opacity-30 mb-4"></div>
+          {/* <div className="w-full h-[2px] bg-brand-secondary bg-opacity-30 mb-4"></div> */}
+
+          {/* info */}
+          <div className="w-full flex items-center justify-start">
+            {activeMode === 0 || activeMode === 0.3 && <div className='flex items-center justify-center gap-2 text-yellow-500'>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+              </svg>
+              <span className='text-xs'>Your transaction may fail</span>
+            </div>}
+          </div>
 
           {/* contents */}
           {/* {activeMode === 'Dynamic' && (
