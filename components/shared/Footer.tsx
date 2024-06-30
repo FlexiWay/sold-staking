@@ -1,10 +1,15 @@
+'use client'
+
+import { usePathname } from 'next/navigation';
 import React from "react";
 import { FaTwitter, FaLinkedin } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
 
 function Footer() {
+  const pathname = usePathname();
+
   return (
-    <footer className="w-full flex items-center justify-start container mx-auto sm:px-6 lg:px-8 gap-2 relative md:absolute md:bottom-0  z-50 p-4">
+    <footer className={`w-full flex items-center ${pathname === "/" ? "justify-center absolute bottom-0" : "justify-start relative"} container mx-auto sm:px-6 lg:px-8 gap-2   z-50 p-4`}>
       {/* <span className="text-xs">Powered by @ 2024 Parity Finance</span> */}
       <div className="flex items-center justify-center gap-2">
         <a

@@ -17,7 +17,7 @@ const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_URL!);
 const fetchQuote = async (amount: number, inputMint: string, outputMint: string, slippage: number) => {
   try {
     //console.log("fetching quote");
-    console.log("Slippage:",slippage);
+    console.log("Slippage:", slippage);
     //console.log(amount);
     const slippageBps = Math.floor(slippage * 100); // Convert slippage to basis points
     const response = await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${amount}&slippageBps=${slippageBps}`);
@@ -86,7 +86,7 @@ const SwapComponent = () => {
   const { connection } = useConnection();
   const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [slippage, setSlippage] = useState(0.3);
+  const [slippage, setSlippage] = useState(0.5);
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
   const [routes, setRoutes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -113,7 +113,7 @@ const SwapComponent = () => {
     amount: 1 * 10 ** 6, // unit in lamports (Decimals)
     inputMint: new PublicKey(INPUT_MINT_ADDRESS),
     outputMint: new PublicKey(OUTPUT_MINT_ADDRESS),
-   // slippage: null, // 0.1%
+    // slippage: null, // 0.1%
   });
 
   const handleAmountChange = (event: { target: { value: string; }; }) => {
@@ -193,6 +193,7 @@ const SwapComponent = () => {
       //console.log("new added slippage:",activeMode);
       setSlippage(activeMode);
       toast.success("Slippage settings saved!");
+      setSlippageModalOpen(false);
     };
 
     return (
@@ -235,7 +236,7 @@ const SwapComponent = () => {
               ))}
               <input
                 type="number"
-                placeholder={`${slippage.toString()}%`}
+                placeholder={`${activeMode.toString()}%`}
                 className="border border-brand-first rounded-lg px-3 py-1 transition-all duration-300 ease-in-out w-1/5"
                 onChange={(e) => setActiveMode(parseFloat(e.target.value))}
               />
@@ -333,12 +334,12 @@ const SwapComponent = () => {
                       <Image
                         width={40}
                         height={40}
-                        src={buy === 'buy' ? "/usdc.svg" : "/pusd.png"}
+                        src={swapDirection === 'buy' ? "/usdc.svg" : "/pusd.png"}
                         alt="pusd"
                         className="w-7 h-7 rounded-full"
                       />
                       <div className="flex flex-col items-start justify-start gap-1">
-                        <span className="font-bold uppercase text-[18px]">{buy === 'buy' ? 'USDC' : 'PUSD'}</span>
+                        <span className="font-bold uppercase text-[18px]">{swapDirection === 'buy' ? 'USDC' : 'PUSD'}</span>
                       </div>
                     </div>
                     <input
@@ -356,7 +357,7 @@ const SwapComponent = () => {
                       <div className="flex items-end justify-end gap-1">
                         <div className="flex items-center justify-end gap-1 pointer-events-none">
                           <span className="text-xs opacity-40">Balance:</span>
-                          <span className="text-xs">{buy === 'buy' ? userBalanceUSDC.toLocaleString() : userBalancePUSD.toLocaleString()}</span>
+                          <span className="text-xs">{swapDirection === 'buy' ? userBalanceUSDC.toLocaleString() : userBalancePUSD.toLocaleString()}</span>
                         </div>
                         <button
                           className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary text-[12px] pl-2"
@@ -390,11 +391,11 @@ const SwapComponent = () => {
                     <span className="text-sm font-semibold leading-6 text-white">You receive</span>
                   </div>
                   <div className="relative w-full flex items-center justify-start">
-                    <div className="flex items-center justify-center gap-2 absolute top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-20">
+                    <div className="flex items-center justify-center gap-2 absolute  top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-10">
                       <Image
                         width={40}
                         height={40}
-                        src={buy === 'buy' ? "/pusd.png" : "/usdc.svg"}
+                        src={swapDirection === 'buy' ? "/pusd.png" : "/usdc.svg"}
                         alt="spusd"
                         className="w-7 h-7 rounded-full"
                       />
@@ -416,7 +417,7 @@ const SwapComponent = () => {
                       <div className="flex items-end justify-end gap-1">
                         <div className="flex items-center justify-end gap-1 pointer-events-none">
                           <span className="text-xs opacity-40">Balance:</span>
-                          <span className="text-xs">{buy === 'buy' ? userBalancePUSD.toLocaleString() : userBalanceSPUSD.toLocaleString()}</span>
+                          <span className="text-xs">{swapDirection === 'buy' ? userBalancePUSD.toLocaleString() : userBalanceSPUSD.toLocaleString()}</span>
                         </div>
                       </div>
                     </div>
