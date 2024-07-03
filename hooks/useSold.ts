@@ -36,7 +36,7 @@ import bs58 from "bs58";
 import { PublicKey, publicKey } from "@metaplex-foundation/umi";
 import { PublicKey as WEb3Publickey } from "@solana/web3.js";
 
-let swapTesting = false;
+let swapTesting = true;
 // TODO: Move this into npm package
 const bigIntToFloat = (
   bigIntValue: bigint | number,
