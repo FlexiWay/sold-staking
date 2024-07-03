@@ -1,5 +1,4 @@
 import React from "react";
-import { Inter } from "next/font/google";
 
 import "./globals.css";
 
@@ -13,10 +12,6 @@ import NewAppBar from "@/components/shared/NewAppBar";
 type Metadata = any;
 type Viewport = any;
 
-const fontSans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 const APP_NAME = "BUILDERZ Solana dApp Scaffold";
 const APP_DEFAULT_TITLE = "BUILDERZ Solana dApp Scaffold";
@@ -84,7 +79,6 @@ export default function RootLayout({
     <LayoutWrapper>
       <AppHead metadata={metadata} viewport={viewport} />
       <html
-        style={{ fontFamily: "Inter", fontWeight: "bold", fontStyle: "normal" }}
         lang="en"
       >
         {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOURID"></script>
@@ -99,7 +93,7 @@ export default function RootLayout({
       `,
           }}
         ></script> */}
-        <body className="font-sans">
+        <body >
           <NewAppBar />
           <div lang="en">{children}</div>
           <Toaster theme="dark" />
