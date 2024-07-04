@@ -29,6 +29,7 @@ const config = {
         "brand-secondary": "#6EC7FD",
         "brand-black": "#050608",
         "brand-first": "#1162FF",
+        "apy-green": '#7DFA69',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

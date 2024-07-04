@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
 import { useSold } from "@/hooks/useSold";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Spin } from "antd";
@@ -59,13 +65,13 @@ export default function StakingComponent() {
             <div className="w-full flex items-center justify-between gap-4">
               <div className="w-full flex items-center justify-between">
                 <button
-                  className={`w-1/2 flex items-center justify-center p-4  text-white rounded-tl-lg  hover:bg-opacity-40 cursor-pointer  border-r ${stakingTab === "stake" ? "bg-[#0B0D0F] font-black  border-r-[#E5E7EB0A] border-opacity-5" : "bg-[#060708] font-semibold hover:font-black border-transparent"} ease-in-out transition-all duration-300`}
+                  className={`w-1/2 flex items-center justify-center p-4  text-white  rounded-tl-lg  hover:bg-opacity-40 cursor-pointer border border-opacity-80  ${stakingTab === "stake" ? "bg-[#0B0D0F] font-black  border-brand-first rounded-t-lg" : "bg-[#060708] font-semibold hover:font-black border-transparent hover:border-brand-first hover:rounded-t-lg hover:border-opacity-50"} ease-in-out transition-all duration-300`}
                   onClick={() => setStakingTab("stake")}
                 >
                   Stake
                 </button>
                 <button
-                  className={`w-1/2 flex items-center justify-center p-4   text-white rounded-tr-lg  hover:bg-opacity-40 cursor-pointer border-l ${stakingTab === "unstake" ? "bg-[#0B0D0F] font-black border-l-[#E5E7EB0A] border-opacity-5" : "bg-[#060708] font-semibold hover:font-black border-transparent"} ease-in-out transition-all duration-300`}
+                  className={`w-1/2 flex items-center justify-center p-4   text-white  rounded-tl-lg  hover:bg-opacity-40 cursor-pointer border border-opacity-80 ${stakingTab === "unstake" ? "bg-[#0B0D0F] font-black  border-brand-first rounded-t-lg" : "bg-[#060708] font-semibold hover:font-black border-transparent hover:border-brand-first hover:rounded-t-lg hover:border-opacity-50"} ease-in-out transition-all duration-300`}
                   onClick={() => setStakingTab("unstake")}
                 >
                   Unstake
@@ -80,7 +86,7 @@ export default function StakingComponent() {
 
             </div>
 
-            <div className="w-full px-3 flex items-center justify-start -mb-4">
+            {/* <div className="w-full px-3 flex items-center justify-start -mb-4">
               <div className="bg-white bg-opacity-0 my-4 border border-white border-opacity-5 rounded-xl py-2 px-4 flex items-start justify-start gap-2 text-sm">
                 <span>sPUSD APY</span>
                 {annualYieldRate && wallet.publicKey && (
@@ -88,6 +94,39 @@ export default function StakingComponent() {
                     {loading ? <> </> : <>{annualYieldRate}%</>}
                   </span>
                 )}
+              </div>
+            </div> */}
+
+            {/* apy card */}
+            <div className="w-full rounded-xl border border-[#E5E7EB14] flex flex-col items-center justify-center gap-2 my-8">
+              <div className="w-full flex items-center justify-center gap-2">
+                {[...Array(5)].map((_, index) => (
+                  <svg key={index} width="15" height="22" viewBox="0 0 15 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.67643 21.3654L5.8431 13.3335H0.884766L9.61231 0.746948H10.151L9.00681 9.83353H14.8401L5.21514 21.3654H4.67643Z" fill="#7DFA69" />
+                  </svg>
+                ))}
+              </div>
+              <div className="w-full flex items-center justify-center gap-2 text-lg font-bold">
+                <span>USD APY</span>
+                <span className='text-apy-green'>{loading ? <> </> : <>{annualYieldRate}%</>}</span>
+              </div>
+              <div className="w-full flex items-center justify-center gap-2 text-lg font-medium">
+                <span>3 x 20% Baseline Yield</span>
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4 opacity-60 hover:opacity-100 cursor-help transition-all duration-300">
+                      <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clipRule="evenodd" />
+                    </svg>
+                  </HoverCardTrigger>
+                  <HoverCardContent side='right' className='bg-[#0B0D0F] text-white !border-opacity-20 flex flex-col items-center justify-start'>
+                    <span>See how we determine the Multiplier and the Baseline Yield.</span>
+                    <div className="w-full flex items-center justify-end">
+                      <button className='text-brand-first hover:text-brand-secondary transition-all'>Learn More</button>
+                    </div>
+
+                  </HoverCardContent>
+                </HoverCard>
+
               </div>
             </div>
 
@@ -207,7 +246,7 @@ export default function StakingComponent() {
                         type="number"
                         id="amount-buy"
                         disabled
-                        className="w-full input text-end bg-[#1B1E24] px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        className="w-full input text-end !bg-[#1B1E24] !border-transparent px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
                         onChange={handleAmountChange}
                         onFocus={(e) =>
                           e.target.value === "0" && (e.target.value = "")
@@ -358,7 +397,7 @@ export default function StakingComponent() {
                         type="number"
                         id="amount-buy"
                         disabled
-                        className="w-full input text-end bg-[#1B1E24] px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        className="w-full input text-end !bg-[#1B1E24] !border-transparent px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
                         onChange={handleAmountChange}
                         value={exchangedAmount}
                         onFocus={(e) =>
