@@ -199,7 +199,7 @@
 
   /* Body styles */
   body {
-    @apply bg-texture-bg bg-bottom bg-cover bg-no-repeat text-white selection:bg-brand-main min-h-screen selection:text-white;
+    @apply bg-texture-bg bg-bottom bg-cover bg-no-repeat text-white selection:bg-brand-first min-h-screen selection:text-white;
     font-family: "Roobert TRIAL", sans-serif !important;
     /* margin: 0; */
     /* Fluid Fonts */

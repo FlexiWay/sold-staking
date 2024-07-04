@@ -11,6 +11,7 @@ import { Connection, PublicKey, Transaction, VersionedTransaction } from '@solan
 import { useSold } from '@/hooks/useSold';
 import { Jupiter, TOKEN_LIST_URL } from "@jup-ag/core";
 import JSBI from 'jsbi';
+import { calculateExchangeRate } from '@builderz/sold';
 
 const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_URL!);
 
@@ -223,7 +224,7 @@ const SwapComponent = () => {
 
           {/* mode */}
           <div className="w-full flex flex-col items-start justify-start my-8 gap-4">
-            <span>Slippage:</span>
+            <span className='text-xs'>Slippage:</span>
             <div className="flex items-center justify-between gap-2 w-full">
               {modes.map((mode, index) => (
                 <button
@@ -248,7 +249,7 @@ const SwapComponent = () => {
 
           {/* info */}
           <div className="w-full flex items-center justify-start">
-            {activeMode === 0 || activeMode === 0.3 && <div className='flex items-center justify-center gap-2 text-yellow-500'>
+            {activeMode === 0 || activeMode === 0.3 && <div className='flex items-center justify-center gap-2 text-[#EB6531]'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
               </svg>
@@ -285,7 +286,7 @@ const SwapComponent = () => {
           {/* button */}
           <div className="w-full flex items-center justify-center mt-4">
             <button
-              className={`w-full h-full rounded-lg bg-apy-gradient border border-brand-first text-transparent bg-clip-text py-4 px-8 disabled:cursor-not-allowed uppercase ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20 bg-opacity-100 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
+              className={`w-full h-full rounded-lg text-white py-4 px-8 disabled:cursor-not-allowed uppercase bg-brand-first ${loading && `text-opacity-50`} disabled:text-gray-80 disabled:text-opacity-20 bg-opacity-100 disabled:bg-opacity-10 hover:bg-opacity-20 ease-in-out transition-all duration-300`}
               onClick={handleSaveSlippage}
             >
               {loading ? <Spin /> : 'Save Settings'}
@@ -295,6 +296,8 @@ const SwapComponent = () => {
       </motion.div>
     );
   };
+
+
 
   return (
     <section className="w-full my-10 mt-20">
