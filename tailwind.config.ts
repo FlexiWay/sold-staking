@@ -28,7 +28,7 @@ const config = {
         "brand-main": "#EF5323",
         "brand-secondary": "#6EC7FD",
         "brand-black": "#050608",
-        "brand-first": "#492BFF",
+        "brand-first": "#1162FF",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -69,6 +69,7 @@ const config = {
         "card-bg": "linear-gradient(to top, #101010, #101010)",
         "card-bgModal": "linear-gradient(to top, #101010, transparent)",
         "apy-gradient": "linear-gradient(to right, #3B42FF, #6557FF)",
+        "max-gradient": "linear-gradient(to right, #1162FF, #47A7FF)",
       },
       borderRadius: {
         lg: "var(--radius)",

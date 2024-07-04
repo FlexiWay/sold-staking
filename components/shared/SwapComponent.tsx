@@ -360,7 +360,7 @@ const SwapComponent = () => {
                           <span className="text-xs">{swapDirection === 'buy' ? userBalanceUSDC.toLocaleString() : userBalancePUSD.toLocaleString()}</span>
                         </div>
                         <button
-                          className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary text-[12px] pl-2"
+                          className="rounded-2xl bg-max-gradient bg-clip-text text-transparent text hover:text-brand-secondary text-[12px] pl-2"
                           onClick={(e) => {
                             e.preventDefault();
                             setAmount(userBalancePUSD);
@@ -408,7 +408,7 @@ const SwapComponent = () => {
                       id="amount-buy"
                       disabled
                       value={exchangedAmount}
-                      className="w-full input text-end bg-[#1B1E24] px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                      className="w-full input text-end !bg-[#1B1E24] !border-transparent px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
                     />
                     <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
                       <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">

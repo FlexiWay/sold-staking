@@ -9,7 +9,7 @@ function Footer() {
   const pathname = usePathname();
 
   return (
-    <footer className={`w-full flex items-center ${pathname === "/" ? "justify-center absolute bottom-0" : "justify-start relative"} container mx-auto sm:px-6 lg:px-8 gap-2   z-50 p-4`}>
+    <footer className={`w-full flex items-center ${pathname === "/" ? "justify-center absolute bottom-0" : "justify-start relative"} lg:absolute  lg:bottom-0 container mx-auto sm:px-6 lg:px-8 gap-2   z-50 p-4`}>
       {/* <span className="text-xs">Powered by @ 2024 Parity Finance</span> */}
       <div className="flex items-center justify-center gap-2">
         <a
