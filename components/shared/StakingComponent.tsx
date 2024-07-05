@@ -256,7 +256,7 @@ export default function StakingComponent() {
                       <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
                         <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
                           <span className="text-[20px] -mb-1 text-white">
-                            {amount}
+                            {exchangedAmount}
                           </span>
                           {/* <span className="text-xs opacity-50">{amount}</span> */}
                         </span>
@@ -408,7 +408,7 @@ export default function StakingComponent() {
                       <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
                         <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
                           <span className="text-[20px] -mb-1 text-white">
-                            {amount}
+                            {exchangedAmount}
                           </span>
                           {/* <span className="text-xs opacity-50">{amount}</span> */}
                         </span>
