@@ -17,6 +17,8 @@ import {
   SOLD_ISSUANCE_PROGRAM_ID,
   calculateExchangeRate,
   SOLD_STAKING_PROGRAM_ID,
+  fetchTokenManager,
+  fetchPoolManager,
 } from "@builderz/sold";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
@@ -28,6 +30,7 @@ import {
   SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
   findAssociatedTokenPda,
   safeFetchToken,
+  fetchMint,
   createAssociatedToken,
 } from "@metaplex-foundation/mpl-toolbox";
 import { toast } from "sonner";
@@ -92,61 +95,90 @@ export const useSold = () => {
   useEffect(() => {
     const fetchState = async () => {
       setLoading(true);
-      const tokenManagerAcc = await safeFetchTokenManager(umi, tokenManagerPubKey);
-      const poolManagerAcc = await safeFetchPoolManager(umi, poolManagerPubKey);
 
-      setTokenManager(tokenManagerAcc);
-      setPoolManager(poolManagerAcc);
-
-      if (poolManagerAcc) {
-        const currentTimestamp = Math.floor(Date.now() / 1000);
-        const lastYieldChangeTimestamp = Number(poolManagerAcc.lastYieldChangeTimestamp);
-        const lastYieldChangeExchangeRate = Number(poolManagerAcc.lastYieldChangeExchangeRate);
-        const rate = calculateExchangeRate(
-          lastYieldChangeTimestamp,
-          currentTimestamp,
-          Number(poolManagerAcc.annualYieldRate),
-          lastYieldChangeExchangeRate,
+      try {
+        const tokenManagerAcc = await fetchTokenManager(
+          umi,
+          tokenManagerPubKey,
         );
-        setExchangeRate(rate);
+        const poolManagerAcc = await fetchPoolManager(umi, poolManagerPubKey);
+        const pusdAccount = await fetchMint(umi, tokenManagerAcc.mint);
+        const spusdAccount = await fetchMint(umi, poolManagerAcc.xMint);
+
+        console.log(tokenManagerAcc);
+        console.log(poolManagerAcc);
+        console.log(pusdAccount);
+        console.log(spusdAccount);
+
+        setTokenManager(tokenManagerAcc);
+        setPoolManager(poolManagerAcc);
+
+        // Stat stat cards
+        tokenManagerAcc && poolManager && pusdAccount &&
+          setStatCardData({
+            totalSupply: bigIntToFloat(
+              pusdAccount.supply,
+              pusdAccount.decimals,
+            ),
+            usdcInPool: bigIntToFloat(
+              tokenManagerAcc.totalCollateral,
+              tokenManagerAcc.quoteMintDecimals,
+            ),
+            totalStaked: bigIntToFloat(
+              poolManager.baseBalance,
+              tokenManagerAcc.mintDecimals,
+            ),
+            xSoldSupply: bigIntToFloat(
+              spusdAccount.supply,
+              spusdAccount.decimals,
+            ),
+          });
+
+        if (poolManagerAcc) {
+          const currentTimestamp = Math.floor(Date.now() / 1000);
+          const lastYieldChangeTimestamp = Number(poolManagerAcc.lastYieldChangeTimestamp);
+          const lastYieldChangeExchangeRate = Number(poolManagerAcc.lastYieldChangeExchangeRate);
+          const rate = calculateExchangeRate(
+            lastYieldChangeTimestamp,
+            currentTimestamp,
+            Number(poolManagerAcc.annualYieldRate),
+            lastYieldChangeExchangeRate,
+          );
+          setExchangeRate(rate);
+        }
+
+        if (swapTesting) {
+          console.log("checking usdc balance");
+          const userUSDC = findAssociatedTokenPda(umi, {
+            owner: umi.identity.publicKey,
+            mint: USDC_MINT_ADDRESS,
+          });
+
+          const userUSDCAtaAcc = await safeFetchToken(umi, userUSDC);
+          setUserBalanceUSDC(
+            userUSDCAtaAcc
+              ? bigIntToFloat(userUSDCAtaAcc.amount, 6) // Assuming 6 is the decimal for USDC
+              : 0,
+          );
+
+          const userBaseUSDT = findAssociatedTokenPda(umi, {
+            owner: umi.identity.publicKey,
+            mint: publicKey('Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB'),
+          });
+
+          const userBaseUSDTAtaAcc = await safeFetchToken(umi, userBaseUSDT);
+          setUserBalancePUSD(
+            userBaseUSDTAtaAcc
+              ? bigIntToFloat(userBaseUSDTAtaAcc.amount, 6)
+              : 0,
+          );
+        }
+      } catch (error) {
+        console.error("Failed to fetch state:", error);
+        toast.error("Failed to fetch state");
+      } finally {
+        setLoading(false);
       }
-
-      tokenManagerAcc && setStatCardData({
-        totalSupply: bigIntToFloat(tokenManagerAcc.totalSupply, tokenManagerAcc.mintDecimals),
-        usdcInPool: bigIntToFloat(tokenManagerAcc.totalCollateral, tokenManagerAcc.quoteMintDecimals),
-        totalStaked: 0,
-        xSoldSupply: 0,
-      });
-
-      setLoading(false);
-
-      if (swapTesting) {
-        console.log("checking usdc balance");
-        const userUSDC = findAssociatedTokenPda(umi, {
-          owner: umi.identity.publicKey,
-          mint: USDC_MINT_ADDRESS,
-        });
-
-        const userUSDCAtaAcc = await safeFetchToken(umi, userUSDC);
-        setUserBalanceUSDC(
-          userUSDCAtaAcc
-            ? bigIntToFloat(userUSDCAtaAcc.amount, 6) // Assuming 6 is the decimal for USDC
-            : 0,
-        );
-
-        const userBaseUSDT = findAssociatedTokenPda(umi, {
-          owner: umi.identity.publicKey,
-          mint: publicKey('Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB'),
-        });
-
-        const userBaseUSDTAtaAcc = await safeFetchToken(umi, userBaseUSDT);
-        setUserBalancePUSD(
-          userBaseUSDTAtaAcc
-            ? bigIntToFloat(userBaseUSDTAtaAcc.amount, 6)
-            : 0,
-        );
-      }
-
     };
 
     if (wallet.publicKey) {
