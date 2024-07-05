@@ -98,8 +98,8 @@ export default function StakingComponent() {
             </div> */}
 
             {/* apy card */}
-            <div className="w-full rounded-xl border border-[#E5E7EB14] flex flex-col items-center justify-center gap-2 my-8">
-              <div className="w-full flex items-center justify-center gap-2">
+            <div className="w-full rounded-xl border border-[#E5E7EB14] flex flex-col items-center justify-center gap-2 my-4 py-6">
+              <div className="w-full flex items-center justify-center gap-1">
                 {[...Array(5)].map((_, index) => (
                   <svg key={index} width="15" height="22" viewBox="0 0 15 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4.67643 21.3654L5.8431 13.3335H0.884766L9.61231 0.746948H10.151L9.00681 9.83353H14.8401L5.21514 21.3654H4.67643Z" fill="#7DFA69" />
@@ -111,7 +111,7 @@ export default function StakingComponent() {
                 <span className='text-apy-green'>{loading ? <> </> : <>{annualYieldRate}%</>}</span>
               </div>
               <div className="w-full flex items-center justify-center gap-2 text-lg font-medium">
-                <span>3 x 20% Baseline Yield</span>
+                <span className='text-xs'>3 x 20% Baseline Yield</span>
                 <HoverCard>
                   <HoverCardTrigger>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4 opacity-60 hover:opacity-100 cursor-help transition-all duration-300">
@@ -145,7 +145,7 @@ export default function StakingComponent() {
                         You Stake
                       </span>
                     </div>
-                    <div className="relative w-full flex items-center justify-start">
+                    <div className="relative w-full flex items-center justify-start z-0">
                       <div className="flex items-center justify-center gap-2 absolute top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-20">
                         <Image
                           width={40}
@@ -163,29 +163,30 @@ export default function StakingComponent() {
                       <input
                         type="number"
                         id="amount-buy"
-                        className="w-full input text-end bg-[#1B1E24] px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        className="w-full input text-end bg-[#1B1E24] text-[20px] -mb-1 text-white px-16 pr-7 py-6 pb-10 relative z-0 "
+                        value={amount} // Make the input controlled
                         onChange={handleAmountChange}
+                        placeholder='0'
                         onFocus={(e) =>
                           e.target.value === "0" && (e.target.value = "")
                         }
                       />
 
-                      <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
-                        <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
+                      <div className="absolute bottom-3 z-[99] translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1">
+                        {/* <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0 pointer-events-none">
                           <span className="text-[20px] -mb-1 text-white">
                             {amount}
                           </span>
-                          {/* <span className="text-xs opacity-50">{amount}</span> */}
-                        </span>
+                        </span> */}
                         <div className="flex items-end justify-end gap-1">
-                          <div className="flex items-center justify-end gap-1 pointer-events-none">
+                          <div className="flex items-center justify-end gap-1">
                             <span className="text-xs opacity-40">Balance:</span>
                             <span className="text-xs ">
                               {userBalancePUSD.toLocaleString()}
                             </span>
                           </div>
                           <button
-                            className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary  text-[12px] pl-2"
+                            className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary relative z-[99] cursor-pointer text-[12px] pl-2"
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(userBalancePUSD);
@@ -227,7 +228,7 @@ export default function StakingComponent() {
                         You receive
                       </span>
                     </div>
-                    <div className="relative w-full flex items-center justify-start">
+                    <div className="relative w-full flex items-center justify-start z-0">
                       <div className="flex items-center justify-center gap-2 absolute top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-20">
                         <Image
                           width={40}
@@ -245,29 +246,37 @@ export default function StakingComponent() {
                       <input
                         type="number"
                         id="amount-buy"
-                        disabled
-                        className="w-full input text-end !bg-[#1B1E24] !border-transparent px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        className="w-full input text-end bg-[#1B1E24] text-[20px] -mb-1 text-white px-16 pr-7 py-6 pb-10 relative z-0 "
+                        value={amount} // Make the input controlled
                         onChange={handleAmountChange}
+                        placeholder='0'
                         onFocus={(e) =>
                           e.target.value === "0" && (e.target.value = "")
                         }
                       />
 
-                      <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
-                        <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
+                      <div className="absolute bottom-3 z-[99] translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1">
+                        {/* <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0 pointer-events-none">
                           <span className="text-[20px] -mb-1 text-white">
-                            {exchangedAmount}
+                            {amount}
                           </span>
-                          {/* <span className="text-xs opacity-50">{amount}</span> */}
-                        </span>
+                        </span> */}
                         <div className="flex items-end justify-end gap-1">
-                          <div className="flex items-center justify-end gap-1 pointer-events-none">
+                          <div className="flex items-center justify-end gap-1">
                             <span className="text-xs opacity-40">Balance:</span>
                             <span className="text-xs ">
                               {userBalanceSPUSD.toLocaleString()}
                             </span>
                           </div>
-
+                          {/* <button
+                            className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary relative z-[99] cursor-pointer text-[12px] pl-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setAmount(userBalanceSPUSD);
+                            }}
+                          >
+                            Max
+                          </button> */}
                         </div>
                       </div>
                     </div>
@@ -314,7 +323,7 @@ export default function StakingComponent() {
                         To receive
                       </span>
                     </div>
-                    <div className="relative w-full flex items-center justify-start">
+                    <div className="relative w-full flex items-center justify-start z-0">
                       <div className="flex items-center justify-center gap-2 absolute top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-20">
                         <Image
                           width={40}
@@ -332,31 +341,30 @@ export default function StakingComponent() {
                       <input
                         type="number"
                         id="amount-buy"
-
-                        className="w-full input text-end bg-[#1B1E24] px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        className="w-full input text-end bg-[#1B1E24] text-[20px] -mb-1 text-white px-16 pr-7 py-6 pb-10 relative z-0 "
+                        value={amount} // Make the input controlled
                         onChange={handleAmountChange}
+                        placeholder='0'
                         onFocus={(e) =>
                           e.target.value === "0" && (e.target.value = "")
                         }
                       />
 
-
-                      <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
-                        <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
+                      <div className="absolute bottom-3 z-[99] translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1">
+                        {/* <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0 pointer-events-none">
                           <span className="text-[20px] -mb-1 text-white">
                             {amount}
                           </span>
-                          {/* <span className="text-xs opacity-50">{amount}</span> */}
-                        </span>
+                        </span> */}
                         <div className="flex items-end justify-end gap-1">
-                          <div className="flex items-center justify-end gap-1 pointer-events-none">
+                          <div className="flex items-center justify-end gap-1">
                             <span className="text-xs opacity-40">Balance:</span>
                             <span className="text-xs ">
                               {userBalanceSPUSD.toLocaleString()}
                             </span>
                           </div>
                           <button
-                            className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary  text-[12px] pl-2"
+                            className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary relative z-[99] cursor-pointer text-[12px] pl-2"
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(userBalanceSPUSD);
@@ -378,7 +386,7 @@ export default function StakingComponent() {
                         You receive
                       </span>
                     </div>
-                    <div className="relative w-full flex items-center justify-start">
+                    <div className="relative w-full flex items-center justify-start z-0">
                       <div className="flex items-center justify-center gap-2 absolute top-1/2 -translate-y-1/2 left-4 bg-[#0B0D0F] px-3 py-2 rounded-md z-20">
                         <Image
                           width={40}
@@ -396,29 +404,37 @@ export default function StakingComponent() {
                       <input
                         type="number"
                         id="amount-buy"
-                        disabled
-                        className="w-full input text-end !bg-[#1B1E24] !border-transparent px-16 pr-6 py-6 pb-10 relative !text-opacity-0 !text-transparent"
+                        className="w-full input text-end bg-[#1B1E24] text-[20px] -mb-1 text-white px-16 pr-7 py-6 pb-10 relative z-0 "
+                        value={amount} // Make the input controlled
                         onChange={handleAmountChange}
-                        value={exchangedAmount}
+                        placeholder='0'
                         onFocus={(e) =>
                           e.target.value === "0" && (e.target.value = "")
                         }
                       />
 
-                      <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1 pointer-events-none">
-                        <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0">
+                      <div className="absolute bottom-3 z-[99] translate-y-1/2 right-4 flex flex-col items-end justify-end gap-1">
+                        {/* <span className="text-[14px] opacity-100 flex flex-col items-end justify-end -gap-0 pointer-events-none">
                           <span className="text-[20px] -mb-1 text-white">
-                            {exchangedAmount}
+                            {amount}
                           </span>
-                          {/* <span className="text-xs opacity-50">{amount}</span> */}
-                        </span>
+                        </span> */}
                         <div className="flex items-end justify-end gap-1">
-                          <div className="flex items-center justify-end gap-1 pointer-events-none">
+                          <div className="flex items-center justify-end gap-1">
                             <span className="text-xs opacity-40">Balance:</span>
                             <span className="text-xs ">
                               {userBalancePUSD.toLocaleString()}
                             </span>
                           </div>
+                          {/* <button
+                            className="rounded-2xl text-[#3B42FF] hover:text-brand-secondary relative z-[99] cursor-pointer text-[12px] pl-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setAmount(userBalancePUSD);
+                            }}
+                          >
+                            Max
+                          </button> */}
                         </div>
                       </div>
                     </div>

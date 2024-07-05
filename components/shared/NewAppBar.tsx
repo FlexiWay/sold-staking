@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Logo } from "./Logo";
 import MyMultiButton from "./MyMultiButton";
 import { usePathname } from "next/navigation";
 import Image from 'next/image';
+
+
 
 const navigation = [
   // { name: "Home", href: "/" },
@@ -24,6 +26,7 @@ const navigation = [
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const pathname = usePathname();
 
   return (
